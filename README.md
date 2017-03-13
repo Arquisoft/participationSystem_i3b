@@ -11,6 +11,8 @@ Skeleton of participants module
 
 # Authors
 
-- Herminio García González (@herminiogg)
-- Jose Emilio Labra Gayo (@labra)
+# Authors
 
+* Gonzalo de la Cruz Fernández (UO244583)
+* Oriol Invernón Llaneza (UO245303)
+* Adrian Mirón Cao (UO244843)
