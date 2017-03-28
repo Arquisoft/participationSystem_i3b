@@ -8,14 +8,14 @@ import java.util.List;
  * @author Oriol
  *
  */
-public class Restrictions {
+public class CouncilRestrictions {
 	private List<String> categories;
 	private Date expirationDate;
 	private List<String> notAllowedWords;
 	private int minimumSupportVotes;
 
-	public Restrictions(List<String> categories, Date expirationDate, 
-			List<String> notAllowedWords, int votes) {
+	public CouncilRestrictions(List<String> categories, Date expirationDate,
+                               List<String> notAllowedWords, int votes) {
 		this.categories = categories;
 		this.expirationDate = expirationDate;
 		this.notAllowedWords = notAllowedWords;

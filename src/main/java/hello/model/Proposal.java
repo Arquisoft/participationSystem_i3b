@@ -1,16 +1,26 @@
 package hello.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.util.List;
 
+@Document(collection = "VotingSystem")
 public class Proposal extends AbstractVotable {
-	private UserInfo author;
+	@Id
+	private String id;
+	private User author;
 	private List<Comment> comments;
 	private boolean isAccepted;
 	private String category;
 	private String title;
 	private String content;
 
-	public Proposal(UserInfo author, String category, String title, String content) {
+	private Proposal() {
+
+	}
+
+	public Proposal(User author, String category, String title, String content) {
 		super();
 		this.author = author;
 		this.category = category;
@@ -26,7 +36,7 @@ public class Proposal extends AbstractVotable {
 		this.isAccepted = isAccepted;
 	}
 
-	public UserInfo getAuthor() {
+	public User getAuthor() {
 		return author;
 	}
 
@@ -52,4 +62,7 @@ public class Proposal extends AbstractVotable {
 				+ isAccepted + "]";
 	}
 
+	public String getId() {
+		return id;
+	}
 }
