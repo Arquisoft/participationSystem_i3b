@@ -593,3 +593,5 @@
 [2017-03-13 10:39:00,145] TRACE Broker 0 cached leader info (LeaderAndIsrInfo:(Leader:0,ISR:0,LeaderEpoch:0,ControllerEpoch:1),ReplicationFactor:1),AllReplicas:0) for partition __consumer_offsets-35 in response to UpdateMetadata request sent by controller 0 epoch 1 with correlation id 8 (state.change.logger)
 [2017-03-13 10:39:00,145] TRACE Broker 0 cached leader info (LeaderAndIsrInfo:(Leader:0,ISR:0,LeaderEpoch:0,ControllerEpoch:1),ReplicationFactor:1),AllReplicas:0) for partition __consumer_offsets-2 in response to UpdateMetadata request sent by controller 0 epoch 1 with correlation id 8 (state.change.logger)
 [2017-03-13 10:39:00,145] TRACE Controller 0 epoch 1 received response {error_code=0} for a request sent to broker DESKTOP-AHKT8UN:9092 (id: 0 rack: null) (state.change.logger)
+[2017-03-28 23:02:22,332] DEBUG preRegister called. Server=com.sun.jmx.mbeanserver.JmxMBeanServer@66d3c617, name=log4j:logger=state.change.logger (state.change.logger)
+[2017-03-28 23:02:23,866] TRACE Controller 0 epoch 1 received response {error_code=0} for a request sent to broker DESKTOP-41B7T1D:9092 (id: 0 rack: null) (state.change.logger)
