@@ -1,16 +1,22 @@
 package hello.repository;
 
-import hello.model.User;
+import hello.model.Proposal;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created by Oriol on 28/03/2017.
  */
 @Repository
-public interface ProposalRepository extends MongoRepository<User, String> {
+public interface ProposalRepository extends MongoRepository<Proposal, String> {
 
-    User insert(User user);
+    Proposal insert(Proposal proposal);
 
-    User findByEmail(String email);
+    Proposal save(Proposal proposal);
+
+    Proposal findById(String id);
+
+    List<Proposal> findAll();
 }

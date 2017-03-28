@@ -9,6 +9,7 @@ import java.util.List;
 public class Proposal extends AbstractVotable {
 	@Id
 	private String id;
+
 	private User author;
 	private List<Comment> comments;
 	private boolean isAccepted;
@@ -56,13 +57,48 @@ public class Proposal extends AbstractVotable {
 		return content;
 	}
 
-	@Override
-	public String toString() {
-		return "Proposal [author=" + author + ", category=" + category + ", title=" + title + ", isAccepted="
-				+ isAccepted + "]";
-	}
-
 	public String getId() {
 		return id;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Proposal proposal = (Proposal) o;
+
+		if (isAccepted != proposal.isAccepted) return false;
+		if (id != null ? !id.equals(proposal.id) : proposal.id != null) return false;
+		if (author != null ? !author.equals(proposal.author) : proposal.author != null) return false;
+		if (comments != null ? !comments.equals(proposal.comments) : proposal.comments != null) return false;
+		if (category != null ? !category.equals(proposal.category) : proposal.category != null) return false;
+		if (title != null ? !title.equals(proposal.title) : proposal.title != null) return false;
+		return content != null ? content.equals(proposal.content) : proposal.content == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = id != null ? id.hashCode() : 0;
+		result = 31 * result + (author != null ? author.hashCode() : 0);
+		result = 31 * result + (comments != null ? comments.hashCode() : 0);
+		result = 31 * result + (isAccepted ? 1 : 0);
+		result = 31 * result + (category != null ? category.hashCode() : 0);
+		result = 31 * result + (title != null ? title.hashCode() : 0);
+		result = 31 * result + (content != null ? content.hashCode() : 0);
+		return result;
+	}
+
+	@Override
+	public String toString() {
+		return "Proposal{" +
+				"id='" + id + '\'' +
+				", author=" + author +
+				", comments=" + comments +
+				", isAccepted=" + isAccepted +
+				", category='" + category + '\'' +
+				", title='" + title + '\'' +
+				", content='" + content + '\'' +
+				'}';
 	}
 }

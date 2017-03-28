@@ -1,6 +1,7 @@
 package hello.repository;
 
-import hello.model.User;
+import hello.model.Comment;
+import hello.model.Proposal;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -8,9 +9,10 @@ import org.springframework.stereotype.Repository;
  * Created by Oriol on 28/03/2017.
  */
 @Repository
-public interface CommentRepository extends MongoRepository<User, String> {
+public interface CommentRepository extends MongoRepository<Comment, String> {
 
-    User insert(User user);
+    Comment findById(String id);
 
-    User findByEmail(String email);
+    Comment save(Comment comment);
+    
 }
