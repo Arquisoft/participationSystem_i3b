@@ -7,6 +7,8 @@ import java.util.List;
 
 @Document(collection = "VotingSystem")
 public class Proposal extends AbstractVotable {
+	
+
 	@Id
 	private String id;
 
