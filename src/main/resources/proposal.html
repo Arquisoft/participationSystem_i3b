@@ -12,21 +12,33 @@
         <tr>
             <th>Upvotes</th>
             <th>Downvotes</th>
+            <th></th>
+            <th></th>
         </tr>
         <tr>
             <td>${prop.upvotes}</td>
             <td>${prop.downvotes}</td>
+            <td><a th:href="@{'/upvoteProposal}">Upvote</a></td>
+            <td><a th:href="@{'/downvoteProposal}">Downvote</a></td>
         </tr>
     </table>
+    <h2>Comments</h2>
     <table id="commentsTable">
         <tbody>
         <tr>
-            <th>Title</th>
+            <th>Content</th>
+            <th>Author</th>
             <th>Vote balance</th>
             <th></th>
             <th></th>
         </tr>
-       <!-- Qued amierda que hare luego-->
+        <tr  th:each="com : ${prop.comments}">
+            <td>${com.content}</td>
+            <td>${com.user}</td>
+            <td>${com.getVoteBalance()}</td>
+            <td><a th:href="@{'/upvoteComment/'${com.id}">Upvote</a></td>
+            <td><a th:href="@{'/downvoteComment/'${com.id}">Downvote</a></td>
+        </tr>
         <tbody/>
     </table>
 </body>
