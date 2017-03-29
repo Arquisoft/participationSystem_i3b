@@ -82,6 +82,17 @@ public class MainController {
     public String createProposal(Model model) {
         model.addAttribute("proposal", new Proposal());
         dbService.insertProposal((Proposal) model.asMap().get("proposal"));
+        model.asMap().remove("proposal");
+        return "redirect:/proposal";
+    }
+
+    @RequestMapping("/createProposal")
+    public String commentProposal(Model model) {
+        model.addAttribute("comment", new Comment());
+        Proposal prop = (Proposal) model.asMap().get("prop");
+        Comment com = (Comment) model.asMap().get("comment");
+        dbService.insertComment(com, prop);
+        model.asMap().remove("comment");
         return "redirect:/proposal";
     }
 

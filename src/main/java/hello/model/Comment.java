@@ -10,7 +10,7 @@ public class Comment extends AbstractVotable {
 	private User user;
 	private String content;
 
-	private Comment() {
+	public Comment() {
 
 	}
 
