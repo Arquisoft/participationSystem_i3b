@@ -11,7 +11,7 @@ import java.util.List;
  * @author Oriol The council gives the config directly to the system admin (?)
  */
 public class Configuration {
-	private static Configuration instance;
+    private static Configuration instance;
 	private List<String> categories;
 	private Date expirationDate;
 	private List<String> notAllowedWords;

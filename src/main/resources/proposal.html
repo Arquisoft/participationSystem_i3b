@@ -4,29 +4,52 @@
 </head>
 <body>
     <h1>${prop.title}</h1>
+    <br/>
     <h2>Content:</h2>
         <p>${prop.content}}</p>
+    <br/>
     <h2>Votes</h2>
     <table id="votesTable">
         <tbody>
         <tr>
             <th>Upvotes</th>
             <th>Downvotes</th>
+            <th></th>
+            <th></th>
         </tr>
         <tr>
             <td>${prop.upvotes}</td>
             <td>${prop.downvotes}</td>
+            <td><a th:href="@{'/upvoteProposal}">Upvote</a></td>
+            <td><a th:href="@{'/downvoteProposal}">Downvote</a></td>
         </tr>
     </table>
+    <br/>
+    <h2>Comment proposal</h2>
+    <form th:action="@{/commentProposal}" th:object="${comment}" method="POST">
+        <label for="content">Content of the comment: </label>
+        <input type="text" id="content" th:field="*{content}" />
+        <input type="hidden" id="author" th:field="*{author}" value="${author}"/>
+        <input type="submit" value="Comment" />
+    </form>
+    <br/>
+    <h2>Comments</h2>
     <table id="commentsTable">
         <tbody>
         <tr>
-            <th>Title</th>
+            <th>Content</th>
+            <th>Author</th>
             <th>Vote balance</th>
             <th></th>
             <th></th>
         </tr>
-       <!-- Qued amierda que hare luego-->
+        <tr  th:each="com : ${prop.comments}">
+            <td>${com.content}</td>
+            <td>${com.user}</td>
+            <td>${com.getVoteBalance()}</td>
+            <td><a th:href="@{'/upvoteComment/'${com.id}">Upvote</a></td>
+            <td><a th:href="@{'/downvoteComment/'${com.id}">Downvote</a></td>
+        </tr>
         <tbody/>
     </table>
 </body>
