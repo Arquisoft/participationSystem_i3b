@@ -1,0 +1,33 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>ParticipationSystem_i3b</title>
+</head>
+<body>
+    <h1>${prop.title}</h1>
+    <h2>Content:</h2>
+        <p>${prop.content}}</p>
+    <h2>Votes</h2>
+    <table id="votesTable">
+        <tbody>
+        <tr>
+            <th>Upvotes</th>
+            <th>Downvotes</th>
+        </tr>
+        <tr>
+            <td>${prop.upvotes}</td>
+            <td>${prop.downvotes}</td>
+        </tr>
+    </table>
+    <table id="commentsTable">
+        <tbody>
+        <tr>
+            <th>Title</th>
+            <th>Vote balance</th>
+            <th></th>
+            <th></th>
+        </tr>
+       <!-- Qued amierda que hare luego-->
+        <tbody/>
+    </table>
+</body>
+</html>

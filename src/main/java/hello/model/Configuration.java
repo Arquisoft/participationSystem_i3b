@@ -3,39 +3,39 @@ package hello.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 /**
  * @author Oriol
+ * The council gives the config directly to the system admin (?)
  */
-@Document(collection = "VotingSystem")
 public class Configuration {
-    @Id
-    private String id;
+    private Configuration instance;
     private List<String> categories;
     private Date expirationDate;
     private List<String> notAllowedWords;
     private int minimumSupportVotes;
 
-    public Configuration(List<String> categories, Date expirationDate,
-                         List<String> notAllowedWords, int votes) {
-        this.categories = categories;
-        this.expirationDate = expirationDate;
-        this.notAllowedWords = notAllowedWords;
-        this.minimumSupportVotes = votes;
+    private Configuration() {
+        instance.categories = new ArrayList<>();
+        instance.categories.add("Cat1");
+        instance.categories.add("Cat2");
+        instance.categories.add("Cat3");
+        instance.expirationDate = expirationDate;
+        instance.notAllowedWords = new ArrayList<>();
+        instance.notAllowedWords.add("ex1");
+        instance.notAllowedWords.add("ex2");
+        instance.notAllowedWords.add("ex3");
+        instance.minimumSupportVotes = 10;
     }
 
-    public void setCategories(List<String> categories) {
-        this.categories = categories;
-    }
-
-    public void setActiveDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    public void setNotAllowedWords(List<String> notAllowedWords) {
-        this.notAllowedWords = notAllowedWords;
+    public static Configuration getInstance() {
+        if(instance == null) {
+            instance = new Configuration();
+        }
+        return instance;
     }
 
     public List<String> getCategories() {
@@ -58,30 +58,9 @@ public class Configuration {
         this.minimumSupportVotes = minimumSupportVotes;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Configuration that = (Configuration) o;
-
-        return id.equals(that.id);
-
-    }
-
-    @Override
-    public int hashCode() {
-        return id.hashCode();
-    }
-
     @Override
     public String toString() {
         return "Configuration{" +
-                "id='" + id + '\'' +
                 ", categories=" + categories +
                 ", expirationDate=" + expirationDate +
                 ", notAllowedWords=" + notAllowedWords +

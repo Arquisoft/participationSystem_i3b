@@ -17,7 +17,7 @@ public class Proposal extends AbstractVotable {
 	private String title;
 	private String content;
 
-	private Proposal() {
+	public Proposal() {
 
 	}
 
