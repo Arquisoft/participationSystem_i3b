@@ -9,7 +9,7 @@
         <input type="text" id="title" th:field="*{title}" />
         <label for="content">Content: </label>
         <input type="text" id="content" th:field="*{content}" />
-        <input type="hidden" id="author" th:field="*{author}" />
+        <input type="hidden" id="author" th:field="*{author}" value="${author}"/>
         <select id="category" th:field="*{category}" >
             <option selected value="base">Select a category</option>
             <option th:each="cat:${categories}" th:value="${cat}" th:text="${cat}"></option>

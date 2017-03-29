@@ -4,6 +4,7 @@ package hello;
 import hello.model.Comment;
 import hello.model.Configuration;
 import hello.model.Proposal;
+import hello.model.User;
 import hello.repository.DBService;
 import hello.repository.DBServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -104,6 +105,11 @@ public class MainController {
     @ModelAttribute("categories")
     public List<String> categories() {
         return Configuration.getInstance().getCategories();
+    }
+
+    @ModelAttribute("author")
+    public User author() {
+        return new User("ASW", 20);
     }
 
 }
