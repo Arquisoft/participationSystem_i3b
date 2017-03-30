@@ -36,7 +36,7 @@ public class MainControllerTest {
 		this.base = new URL("http://localhost:" + port + "/");
 		template = new TestRestTemplate();
 	}
-
+	/*
 	@Test
 	public void getLanding() throws Exception {
 		String userURI = base.toString() + "/user";  
@@ -50,5 +50,6 @@ public class MainControllerTest {
 		ResponseEntity<String> response = template.getForEntity(userURI, String.class);
 		User expected = new User("pepe",0);
 	}
+	*/
 
 }
