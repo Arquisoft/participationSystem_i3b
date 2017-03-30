@@ -68,15 +68,8 @@ public class MainController {
     }
 
     @RequestMapping("/")
-    public String landing(Model model) {
-        model.addAttribute("message", new Message());
-        return "index";
-    }
-
-    @RequestMapping("/send")
-    public String send(Model model, @ModelAttribute Message message) {
-        kafkaProducer.send("exampleTopic", message.getMessage());
-        return "redirect:/";
+    public ModelAndView landing(Model model) {
+        return new ModelAndView("redirect:" + "/templates/userHome");
     }
 
     @RequestMapping("/createProposal")
@@ -84,7 +77,7 @@ public class MainController {
         model.addAttribute("proposal", new Proposal());
         dbService.insertProposal((Proposal) model.asMap().get("proposal"));
         model.asMap().remove("proposal");
-        return "redirect:/proposal";
+        return "redirect:/templates/proposal";
     }
 
     @RequestMapping("/createProposal")
