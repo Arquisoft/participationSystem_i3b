@@ -1,12 +1,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>ParticipationSystem_i3b</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous">
+    </script>
 </head>
 <body>
-    <h1>${prop.title}</h1>
+    <h1 th:text="${prop.title}"></h1>
     <br/>
     <h2>Content:</h2>
-        <p>${prop.content}}</p>
+        <p th:text="${prop.content}}"></p>
     <br/>
     <h2>Votes</h2>
     <table id="votesTable">
@@ -18,18 +31,18 @@
             <th></th>
         </tr>
         <tr>
-            <td>${prop.upvotes}</td>
-            <td>${prop.downvotes}</td>
+            <td th:text="${prop.upvotes}"></td>
+            <td th:text="${prop.downvotes}"></td>
             <td><a th:href="@{'/upvoteProposal}">Upvote</a></td>
             <td><a th:href="@{'/downvoteProposal}">Downvote</a></td>
         </tr>
     </table>
     <br/>
     <h2>Comment proposal</h2>
-    <form th:action="@{/commentProposal}" th:object="${comment}" method="POST">
+    <form th:action="@{/commentProposal}" th:object="${createComment}" method="POST">
         <label for="content">Content of the comment: </label>
         <input type="text" id="content" th:field="*{content}" />
-        <input type="hidden" id="author" th:field="*{author}" value="${author}"/>
+        <!-- <input type="hidden" id="author" th:field="*{author}" value="${author}"/> -->
         <input type="submit" value="Comment" />
     </form>
     <br/>
@@ -44,9 +57,9 @@
             <th></th>
         </tr>
         <tr  th:each="com : ${prop.comments}">
-            <td>${com.content}</td>
-            <td>${com.user}</td>
-            <td>${com.getVoteBalance()}</td>
+            <td th:text="${com.content}"></td>
+            <td th:text="${com.user}"></td>
+            <td th:text="${com.getVoteBalance()}"></td>
             <td><a th:href="@{'/upvoteComment/'${com.id}">Upvote</a></td>
             <td><a th:href="@{'/downvoteComment/'${com.id}">Downvote</a></td>
         </tr>

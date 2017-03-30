@@ -1,19 +1,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>ParticipationSystem_i3b</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous"/>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous">
+    </script>
 </head>
 <body>
 <h1>User home</h1>
     <form th:action="@{/createProposal}" th:object="${createProposal}" method="POST">
         <label for="title">Title of the proposal: </label>
         <input type="text" id="title" th:field="*{title}" />
+        <br/>
         <label for="content">Content: </label>
         <input type="text" id="content" th:field="*{content}" />
+        <br/>
         <!--<input type="hidden" id="author" th:field="*{author}" value="${author}"/>-->
         <select id="category" th:field="*{category}" >
             <option selected="true" value="base">Select a category</option>
             <option th:each="cat:${categories}" th:value="${cat}" th:text="${cat}"></option>
         </select>
+        <br/>
         <input type="submit" value="Create" />
     </form>
     <br/>
@@ -22,11 +38,13 @@
         <tbody>
         <tr>
             <th>Title</th>
+            <th>Category</th>
             <th>Vote balance</th>
             <th></th>
         </tr>
         <tr th:each="prop : ${proposals}">
             <td th:text="${prop.getTitle()}"></td>
+            <td th:text="${prop.getCategory()}"></td>
             <td th:text="${prop.getVoteBalance()}"></td>
             <td><a th:href="@{'/selectProposal/'${prop.id}}">Open</a></td>
         </tr>

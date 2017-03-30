@@ -46,6 +46,7 @@ public class MainController {
         Proposal prop = (Proposal) model.asMap().get("prop");
         prop.upvote();
         dbService.updateProposal(prop);
+        //kafkaProducer.send("upvoted Proposal", "test");
         return "redirect:/proposal";
     }
 
@@ -54,6 +55,7 @@ public class MainController {
         Proposal prop = (Proposal) model.asMap().get("prop");
         prop.downvote();
         dbService.updateProposal(prop);
+        //kafkaProducer.send("downvoted Proposal", "test");
         return "redirect:/proposal";
     }
 
@@ -62,6 +64,7 @@ public class MainController {
         Comment com = dbService.findCommentByID(id);
         com.upvote();
         dbService.updateComment(com);
+        //kafkaProducer.send("upvoted Comment", "test");
         return "redirect:/proposal";
     }
 
@@ -70,6 +73,7 @@ public class MainController {
         Comment com = dbService.findCommentByID(id);
         com.downvote();
         dbService.updateComment(com);
+        //kafkaProducer.send("downvoted Comment", "test");
         return "redirect:/proposal";
     }
 
@@ -85,17 +89,17 @@ public class MainController {
         proposal.setContent(createProposal.getContent());
         proposal.setCategory(createProposal.getCategory());
         dbService.insertProposal(proposal);
+        //kafkaProducer.send("new Proposal", "test");
         return "redirect:/userHome";
     }
 
     @RequestMapping("/createComment")
-    public String commentProposal(Model model) {
-        model.addAttribute("comment", new Comment());
+    public String commentProposal(Model model, @ModelAttribute CreateComment createComment) {
+        Comment comment = new Comment();
+        comment.setContent("createComment");
         Proposal prop = (Proposal) model.asMap().get("prop");
-        Comment com = (Comment) model.asMap().get("comment");
-        dbService.insertComment(com, prop);
-        model.asMap().remove("comment");
-        //kafkaProducer.send("new Proposal", "test");
+        dbService.insertComment(comment, prop);
+        //kafkaProducer.send("new Comment", "test");
         return "redirect:/proposal";
     }
 

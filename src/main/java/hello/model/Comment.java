@@ -34,6 +34,14 @@ public class Comment extends AbstractVotable {
 		return id;
 	}
 
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
