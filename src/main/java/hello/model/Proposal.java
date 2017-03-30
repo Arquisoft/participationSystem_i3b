@@ -19,6 +19,30 @@ public class Proposal extends AbstractVotable {
 	private String title;
 	private String content;
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setAuthor(User author) {
+		this.author = author;
+	}
+
+	public void setComments(List<Comment> comments) {
+		this.comments = comments;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
 	public Proposal() {
 
 	}

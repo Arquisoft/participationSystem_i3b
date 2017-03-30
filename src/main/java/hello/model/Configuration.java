@@ -18,16 +18,16 @@ public class Configuration {
 	private int minimumSupportVotes;
 
 	private Configuration() {
-		instance.categories = new ArrayList<>();
-		instance.categories.add("Cat1");
-		instance.categories.add("Cat2");
-		instance.categories.add("Cat3");
-		instance.expirationDate = expirationDate;
-		instance.notAllowedWords = new ArrayList<>();
-		instance.notAllowedWords.add("ex1");
-		instance.notAllowedWords.add("ex2");
-		instance.notAllowedWords.add("ex3");
-		instance.minimumSupportVotes = 10;
+		this.categories = new ArrayList<>();
+		this.categories.add("Cat1");
+		this.categories.add("Cat2");
+		this.categories.add("Cat3");
+		this.expirationDate = expirationDate;
+		this.notAllowedWords = new ArrayList<>();
+		this.notAllowedWords.add("ex1");
+		this.notAllowedWords.add("ex2");
+		this.notAllowedWords.add("ex3");
+		this.minimumSupportVotes = 10;
 	}
 
 	public static Configuration getInstance() {

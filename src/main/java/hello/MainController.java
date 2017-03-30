@@ -1,10 +1,7 @@
 package hello;
 
 
-import hello.model.Comment;
-import hello.model.Configuration;
-import hello.model.Proposal;
-import hello.model.User;
+import hello.model.*;
 import hello.repository.DBService;
 import hello.repository.DBServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +11,14 @@ import org.springframework.web.bind.annotation.*;
 import hello.producers.KafkaProducer;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class MainController {
 
-    private final DBService dbService;
-
     @Autowired
-    MainController(DBService dbService) {
-        this.dbService = dbService;
-    }
+    private DBServiceImpl dbService;
 
     @Autowired
     private KafkaProducer kafkaProducer;
@@ -35,7 +29,19 @@ public class MainController {
         return "redirect:/proposal";
     }
 
-    @RequestMapping(value="upvoteProposal}", method = RequestMethod.POST)
+    @RequestMapping(value="/userHome")
+    public String userHome(Model model) {
+        model.addAttribute("createProposal", new CreateProposal());
+        //model.addAttribute("proposals", new ArrayList<Proposal>());
+        return "userHome";
+    }
+
+    @RequestMapping(value="/index")
+    public String index(Model model) {
+        return "index";
+    }
+
+    @RequestMapping(value="upvoteProposal", method = RequestMethod.POST)
     public String upvoteProposal (Model model) {
         Proposal prop = (Proposal) model.asMap().get("prop");
         prop.upvote();
@@ -69,24 +75,27 @@ public class MainController {
 
     @RequestMapping("/")
     public ModelAndView landing(Model model) {
-        return new ModelAndView("redirect:" + "/templates/userHome");
+        return new ModelAndView("redirect:" + "/userHome");
     }
 
     @RequestMapping("/createProposal")
-    public String createProposal(Model model) {
-        model.addAttribute("proposal", new Proposal());
-        dbService.insertProposal((Proposal) model.asMap().get("proposal"));
-        model.asMap().remove("proposal");
-        return "redirect:/templates/proposal";
+    public String createProposal(Model model, @ModelAttribute CreateProposal createProposal) {
+        Proposal proposal = new Proposal();
+        proposal.setTitle(createProposal.getTitle());
+        proposal.setContent(createProposal.getContent());
+        proposal.setCategory(createProposal.getCategory());
+        dbService.insertProposal(proposal);
+        return "redirect:/userHome";
     }
 
-    @RequestMapping("/createProposal")
+    @RequestMapping("/createComment")
     public String commentProposal(Model model) {
         model.addAttribute("comment", new Comment());
         Proposal prop = (Proposal) model.asMap().get("prop");
         Comment com = (Comment) model.asMap().get("comment");
         dbService.insertComment(com, prop);
         model.asMap().remove("comment");
+        //kafkaProducer.send("new Proposal", "test");
         return "redirect:/proposal";
     }
 

@@ -4,14 +4,14 @@
 </head>
 <body>
 <h1>User home</h1>
-    <form th:action="@{/createProposal}" th:object="${proposal}" method="POST">
+    <form th:action="@{/createProposal}" th:object="${createProposal}" method="POST">
         <label for="title">Title of the proposal: </label>
         <input type="text" id="title" th:field="*{title}" />
         <label for="content">Content: </label>
         <input type="text" id="content" th:field="*{content}" />
-        <input type="hidden" id="author" th:field="*{author}" value="${author}"/>
+        <!--<input type="hidden" id="author" th:field="*{author}" value="${author}"/>-->
         <select id="category" th:field="*{category}" >
-            <option selected value="base">Select a category</option>
+            <option selected="true" value="base">Select a category</option>
             <option th:each="cat:${categories}" th:value="${cat}" th:text="${cat}"></option>
         </select>
         <input type="submit" value="Create" />
@@ -26,11 +26,11 @@
             <th></th>
         </tr>
         <tr th:each="prop : ${proposals}">
-            <td>${prop.title}</td>
-            <td>${prop.getVoteBalance()}</td>
+            <td th:text="${prop.getTitle()}"></td>
+            <td th:text="${prop.getVoteBalance()}"></td>
             <td><a th:href="@{'/selectProposal/'${prop.id}}">Open</a></td>
         </tr>
-        <tbody/>
+        </tbody>
     </table>
 </body>
 </html>
