@@ -16,10 +16,10 @@
     </script>
 </head>
 <body>
-    <h1 th:text="${prop.title}"></h1>
+    <h1 th:text="${prop.getTitle()}"></h1>
     <br/>
     <h2>Content:</h2>
-        <p th:text="${prop.content}}"></p>
+        <p th:text="${prop.getContent()}"></p>
     <br/>
     <h2>Votes</h2>
     <table id="votesTable">
@@ -31,11 +31,12 @@
             <th></th>
         </tr>
         <tr>
-            <td th:text="${prop.upvotes}"></td>
-            <td th:text="${prop.downvotes}"></td>
+            <td th:text="${prop.getUpvotes()}"></td>
+            <td th:text="${prop.getDownvotes()}"></td>
             <td><a th:href="@{'/upvoteProposal}">Upvote</a></td>
             <td><a th:href="@{'/downvoteProposal}">Downvote</a></td>
         </tr>
+        </tbody>
     </table>
     <br/>
     <h2>Comment proposal</h2>
@@ -56,14 +57,14 @@
             <th></th>
             <th></th>
         </tr>
-        <tr  th:each="com : ${prop.comments}">
-            <td th:text="${com.content}"></td>
-            <td th:text="${com.user}"></td>
+        <tr  th:each="com : ${prop.getComments()}">
+            <td th:text="${com.getContent()}"></td>
+            <td th:text="${com.getUser()}"></td>
             <td th:text="${com.getVoteBalance()}"></td>
             <td><a th:href="@{'/upvoteComment/'${com.id}">Upvote</a></td>
             <td><a th:href="@{'/downvoteComment/'${com.id}">Downvote</a></td>
         </tr>
-        <tbody/>
+        </tbody>
     </table>
 </body>
 </html>

@@ -126,6 +126,7 @@ Caused by: java.nio.file.FileSystemException: \tmp\kafka-logs\__consumer_offsets
 		at org.apache.kafka.common.utils.Utils.atomicMoveWithFallback(Utils.java:708)
 		... 11 more
 [2017-03-30 01:18:31,239] INFO [kafka-log-cleaner-thread-0], Stopped  (kafka.log.LogCleaner)
+<<<<<<< HEAD
 [2017-03-31 10:46:27,041] INFO Starting the log cleaner (kafka.log.LogCleaner)
 [2017-03-31 10:46:27,042] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)
 [2017-03-31 10:46:28,559] INFO Shutting down the log cleaner. (kafka.log.LogCleaner)
@@ -150,3 +151,15 @@ Caused by: java.nio.file.FileSystemException: \tmp\kafka-logs\__consumer_offsets
 [2017-03-31 10:54:23,502] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)
 [2017-03-31 10:55:02,160] INFO Starting the log cleaner (kafka.log.LogCleaner)
 [2017-03-31 10:55:02,162] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)
+=======
+[2017-03-31 09:04:38,822] INFO Starting the log cleaner (kafka.log.LogCleaner)
+[2017-03-31 09:04:38,824] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)
+[2017-03-31 09:41:32,771] INFO Starting the log cleaner (kafka.log.LogCleaner)
+[2017-03-31 09:41:32,772] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)
+[2017-03-31 09:41:39,314] INFO Shutting down the log cleaner. (kafka.log.LogCleaner)
+[2017-03-31 09:41:39,314] INFO [kafka-log-cleaner-thread-0], Shutting down (kafka.log.LogCleaner)
+[2017-03-31 09:41:39,314] INFO [kafka-log-cleaner-thread-0], Stopped  (kafka.log.LogCleaner)
+[2017-03-31 09:41:39,314] INFO [kafka-log-cleaner-thread-0], Shutdown completed (kafka.log.LogCleaner)
+[2017-03-31 09:41:55,560] INFO Starting the log cleaner (kafka.log.LogCleaner)
+[2017-03-31 09:41:55,561] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)
+>>>>>>> 726634f6a18c484c1cfad4029ef00fb958abb4a2

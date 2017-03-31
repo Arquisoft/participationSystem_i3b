@@ -46,7 +46,7 @@
             <td th:text="${prop.getTitle()}"></td>
             <td th:text="${prop.getCategory()}"></td>
             <td th:text="${prop.getVoteBalance()}"></td>
-            <td><a th:href="@{'/selectProposal/'${prop.id}}">Open</a></td>
+            <td><a th:href="${'/selectProposal/' + prop.getId()}">Open</a></td>
         </tr>
         </tbody>
     </table>
