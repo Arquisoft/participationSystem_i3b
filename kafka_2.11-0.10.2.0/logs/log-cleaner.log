@@ -163,3 +163,11 @@ Caused by: java.nio.file.FileSystemException: \tmp\kafka-logs\__consumer_offsets
 [2017-03-31 09:41:55,560] INFO Starting the log cleaner (kafka.log.LogCleaner)
 [2017-03-31 09:41:55,561] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)
 >>>>>>> 726634f6a18c484c1cfad4029ef00fb958abb4a2
+[2017-03-31 17:46:45,446] INFO Starting the log cleaner (kafka.log.LogCleaner)
+[2017-03-31 17:46:45,447] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)
+[2017-03-31 17:46:51,232] INFO Shutting down the log cleaner. (kafka.log.LogCleaner)
+[2017-03-31 17:46:51,234] INFO [kafka-log-cleaner-thread-0], Shutting down (kafka.log.LogCleaner)
+[2017-03-31 17:46:51,237] INFO [kafka-log-cleaner-thread-0], Stopped  (kafka.log.LogCleaner)
+[2017-03-31 17:46:51,237] INFO [kafka-log-cleaner-thread-0], Shutdown completed (kafka.log.LogCleaner)
+[2017-03-31 17:47:03,127] INFO Starting the log cleaner (kafka.log.LogCleaner)
+[2017-03-31 17:47:03,129] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)
