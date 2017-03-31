@@ -18,6 +18,9 @@
 	crossorigin="anonymous">
 	
 </script>
+
+<link rel="stylesheet" type="text/css" href="comments.css" />
+
 </head>
 <body>
 	<div class="container-fluid">
@@ -34,42 +37,96 @@
 					<div class="col-md-5">
 						<h3>Votes</h3>
 						<div class="row">
-								<table id="votesTable" class="table">
-									<thead>
-										<tr>
-											<th class="text-center"><h4><b>Likes</b></h4></th>
-											<th class="text-center"><h4><b>Dislikes</b></h4></th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td class="text-center" th:text="${prop.getUpvotes()}"></td>
-											<td class="text-center" th:text="${prop.getDownvotes()}"></td>
-										</tr>
+							<table id="votesTable" class="table">
+								<thead>
+									<tr>
+										<th class="text-center"><h4>
+												<b>Likes</b>
+											</h4></th>
+										<th class="text-center"><h4>
+												<b>Dislikes</b>
+											</h4></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td class="text-center" th:text="${prop.getUpvotes()}"></td>
+										<td class="text-center" th:text="${prop.getDownvotes()}"></td>
+									</tr>
 
-										<tr>
-											<td><a th:href="@{'/upvoteProposal}"
-												class="btn btn-block btn-lg btn-success"> <span
-													class="glyphicon glyphicon-thumbs-up"></span></a></td>
-											<td><a th:href="@{'/downvoteProposal}"
-												class="btn btn-block btn-lg btn-danger"> <span
-													class="glyphicon glyphicon-thumbs-down"></span></a></td>
-										</tr>
+									<tr>
+										<td><a th:href="@{'/upvoteProposal}"
+											class="btn btn-block btn-lg btn-success"> <span
+												class="glyphicon glyphicon-thumbs-up"></span></a></td>
+										<td><a th:href="@{'/downvoteProposal}"
+											class="btn btn-block btn-lg btn-danger"> <span
+												class="glyphicon glyphicon-thumbs-down"></span></a></td>
+									</tr>
 
-									</tbody>
+								</tbody>
 
-								</table>
-							</div>
+							</table>
+						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">
-							<h3>Comments</h3>
+							<h3>Comments:</h3>
+
+							<div class="row">
+								<table class="table">
+									<tr th:each="com : ${prop.getComments()}">
+										<div class="col-sm-2">
+											<div class="thumbnail">
+												<img class="img-responsive user-photo"
+													src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" />
+											</div>
+											<!-- /thumbnail -->
+										</div>
+										<!-- /col-sm-1 -->
+
+										<div class="col-sm-10">
+
+											<div class="panel panel-default">
+												<div class="panel-heading">
+													<span class="text-muted" th:text="${com.getUser()}"></span>
+												</div>
+												<div class="panel-body">
+													<p th:text="${com.getContent()}"></p>
+												</div>
+												<!-- /panel-body -->
+											</div>
+											<!-- /panel panel-default -->
+
+										</div>
+										<!-- /col-sm-10 -->
+									</tr>
+								</table>
+							</div>
+							<!-- /row -->
+
+
 						</div>
 						<div class="col-md-6"></div>
 					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<h3>New Comment</h3>
+							<form role="form" th:action="@{/commentProposal}"
+								th:object="${createComment}" method="POST">
+
+								<textarea class="form-control" rows="5" id="content"
+									th:field="*{content}" placeholder="Write here your comment"></textarea>
+								<!-- <input type="hidden" id="author" th:field="*{author}" value="${author}"/> -->
+								<button value="Comment" type="button" class="btn btn-default">Send comment</button>
+							</form>
+						</div>
+						<div class="col-md-6"></div>
+					</div>
+
 				</div>
 			</div>
 		</div>
+
 	</div>
 </body>
 </html>
