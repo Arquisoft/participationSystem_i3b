@@ -23,10 +23,11 @@ public class MainController {
     @Autowired
     private KafkaProducer kafkaProducer;
 
-    @RequestMapping(value="selectProposal/{id}", method = RequestMethod.POST)
+    @RequestMapping(value="selectProposal/{id}", method = RequestMethod.GET)
     public String selectProposal (Model model, @PathVariable String id) {
         model.addAttribute("prop", dbService.findProposalById(id));
-        return "redirect:/proposal";
+        model.addAttribute("createComment", new CreateComment());
+        return "proposal";
     }
 
     @RequestMapping(value="/userHome")
@@ -96,11 +97,11 @@ public class MainController {
     @RequestMapping("/createComment")
     public String commentProposal(Model model, @ModelAttribute CreateComment createComment) {
         Comment comment = new Comment();
-        comment.setContent("createComment");
+        comment.setContent(createComment.getContent());
         Proposal prop = (Proposal) model.asMap().get("prop");
         dbService.insertComment(comment, prop);
         //kafkaProducer.send("new Comment", "test");
-        return "redirect:/proposal";
+        return "proposal";
     }
 
     @ModelAttribute("proposals")
