@@ -1,6 +1,5 @@
 package hello;
 
-
 import hello.model.*;
 import hello.repository.DBService;
 import hello.repository.DBServiceImpl;
@@ -17,106 +16,117 @@ import java.util.List;
 @Controller
 public class MainController {
 
-    @Autowired
-    private DBServiceImpl dbService;
+	@Autowired
+	private DBServiceImpl dbService;
 
-    @Autowired
-    private KafkaProducer kafkaProducer;
+	@Autowired
+	private KafkaProducer kafkaProducer;
 
-    @RequestMapping(value="selectProposal/{id}", method = RequestMethod.GET)
-    public String selectProposal (Model model, @PathVariable String id) {
-        model.addAttribute("prop", dbService.findProposalById(id));
-        model.addAttribute("createComment", new CreateComment());
-        return "proposal";
-    }
+	@RequestMapping(value = "selectProposal/{id}", method = RequestMethod.GET)
+	public String selectProposal(Model model, @PathVariable String id) {
+		model.addAttribute("prop", dbService.findProposalById(id));
+		model.addAttribute("createComment", new CreateComment());
+		return "proposal";
+	}
 
-    @RequestMapping(value="/userHome")
-    public String userHome(Model model) {
-        model.addAttribute("createProposal", new CreateProposal());
-        //model.addAttribute("proposals", new ArrayList<Proposal>());
-        return "userHome";
-    }
+	@RequestMapping(value = "/userHome")
+	public String userHome(Model model) {
+		model.addAttribute("createProposal", new CreateProposal());
+		// model.addAttribute("proposals", new ArrayList<Proposal>());
+		return "userHome";
+	}
 
-    @RequestMapping(value="/index")
-    public String index(Model model) {
-        return "index";
-    }
+	@RequestMapping(value = "/index")
+	public String index(Model model) {
+		return "index";
+	}
 
-    @RequestMapping(value="upvoteProposal", method = RequestMethod.POST)
-    public String upvoteProposal (Model model) {
-        Proposal prop = (Proposal) model.asMap().get("prop");
-        prop.upvote();
-        dbService.updateProposal(prop);
-        //kafkaProducer.send("upvoted Proposal", "test");
-        return "redirect:/proposal";
-    }
+	@RequestMapping(value = "/upvoteProposal/{id}", method = RequestMethod.GET)
+	public String upvoteProposal(Model model, @PathVariable("id") String id) {
+		Proposal prop = dbService.findProposalById(id);
+		if (prop != null) {
+			prop.upvote();
+			dbService.updateProposal(prop);
+		}
+		return "redirect:/selectProposal/" + id;
 
-    @RequestMapping(value="downvoteProposal/{id}", method = RequestMethod.POST)
-    public String downvoteProposal (Model model, @PathVariable String id) {
-        Proposal prop = (Proposal) model.asMap().get("prop");
-        prop.downvote();
-        dbService.updateProposal(prop);
-        //kafkaProducer.send("downvoted Proposal", "test");
-        return "redirect:/proposal";
-    }
+	}
 
-    @RequestMapping(value="upvoteComment/{id}", method = RequestMethod.POST)
-    public String upvoteComment (Model model, @PathVariable String id) {
-        Comment com = dbService.findCommentByID(id);
-        com.upvote();
-        dbService.updateComment(com);
-        //kafkaProducer.send("upvoted Comment", "test");
-        return "redirect:/proposal";
-    }
+	@RequestMapping(value = "/downvoteProposal/{id}", method = RequestMethod.GET)
+	public String downvoteProposal(Model model, @PathVariable("id") String id) {
+		Proposal prop = dbService.findProposalById(id);
+		if (prop != null) {
+			prop.downvote();
+			dbService.updateProposal(prop);
+		}
+		return "redirect:/selectProposal/" + id;
+	}
 
-    @RequestMapping(value="downvoteComment/{id}", method = RequestMethod.POST)
-    public String downvoteComment (Model model, @PathVariable String id) {
-        Comment com = dbService.findCommentByID(id);
-        com.downvote();
-        dbService.updateComment(com);
-        //kafkaProducer.send("downvoted Comment", "test");
-        return "redirect:/proposal";
-    }
+	@RequestMapping(value = "upvoteComment/{id}")
+	public String upvoteComment(Model model, @PathVariable("id") String proposalId,
+			@PathVariable String id) {
+		Comment com = dbService.findCommentByID(id);
+		if (com != null) {
+			com.upvote();
+			dbService.updateComment(com);
+		}
+		// kafkaProducer.send("upvoted Comment", "test");
+		return "redirect:/selectProposal/" + id;
+	}
 
-    @RequestMapping("/")
-    public ModelAndView landing(Model model) {
-        return new ModelAndView("redirect:" + "/userHome");
-    }
+	@RequestMapping(value = "downvoteComment/{proposalId}/{id}")
+	public String downvoteComment(Model model, @PathVariable("id") String proposalId,
+			@PathVariable String id) {
+		Comment com = dbService.findCommentByID(id);
+		if (com != null) {
+			com.downvote();
+			dbService.updateComment(com);
+		}
+		// kafkaProducer.send("downvoted Comment", "test");
+		return "redirect:/selectProposal/" + id;
+	}
 
-    @RequestMapping("/createProposal")
-    public String createProposal(Model model, @ModelAttribute CreateProposal createProposal) {
-        Proposal proposal = new Proposal();
-        proposal.setTitle(createProposal.getTitle());
-        proposal.setContent(createProposal.getContent());
-        proposal.setCategory(createProposal.getCategory());
-        dbService.insertProposal(proposal);
-        //kafkaProducer.send("new Proposal", "test");
-        return "redirect:/userHome";
-    }
+	@RequestMapping("/")
+	public ModelAndView landing(Model model) {
+		return new ModelAndView("redirect:" + "/userHome");
+	}
 
-    @RequestMapping("/createComment")
-    public String commentProposal(Model model, @ModelAttribute CreateComment createComment) {
-        Comment comment = new Comment();
-        comment.setContent(createComment.getContent());
-        Proposal prop = (Proposal) model.asMap().get("prop");
-        dbService.insertComment(comment, prop);
-        //kafkaProducer.send("new Comment", "test");
-        return "proposal";
-    }
+	@RequestMapping("/createProposal")
+	public String createProposal(Model model,
+			@ModelAttribute CreateProposal createProposal) {
+		Proposal proposal = new Proposal();
+		proposal.setTitle(createProposal.getTitle());
+		proposal.setContent(createProposal.getContent());
+		proposal.setCategory(createProposal.getCategory());
+		dbService.insertProposal(proposal);
+		// kafkaProducer.send("new Proposal", "test");
+		return "redirect:/userHome";
+	}
 
-    @ModelAttribute("proposals")
-    public List<Proposal> proposals() {
-        return dbService.findAllProposals();
-    }
+	@RequestMapping("/createComment/{id}")
+	public String commentProposal(Model model, @PathVariable("id") String id,
+			@ModelAttribute CreateComment createComment) {
+		Comment comment = new Comment();
+		comment.setContent(createComment.getContent());
+		Proposal prop = dbService.findProposalById(id);
+		dbService.insertComment(comment, prop);
+		// kafkaProducer.send("new Comment", "test");
+		return "redirect:/selectProposal/" + id;
+	}
 
-    @ModelAttribute("categories")
-    public List<String> categories() {
-        return Configuration.getInstance().getCategories();
-    }
+	@ModelAttribute("proposals")
+	public List<Proposal> proposals() {
+		return dbService.findAllProposals();
+	}
 
-    @ModelAttribute("author")
-    public User author() {
-        return new User("ASW", 20);
-    }
+	@ModelAttribute("categories")
+	public List<String> categories() {
+		return Configuration.getInstance().getCategories();
+	}
+
+	@ModelAttribute("author")
+	public User author() {
+		return new User("ASW", 20);
+	}
 
 }
