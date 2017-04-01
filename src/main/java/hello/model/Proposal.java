@@ -1,9 +1,12 @@
 package hello.model;
 
+import hello.Util.DateUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Document(collection = "VotingSystem")
@@ -19,6 +22,7 @@ public class Proposal extends AbstractVotable {
 	private String category;
 	private String title;
 	private String content;
+	private Date expirationDate;
 
 	public void setId(String id) {
 		this.id = id;
@@ -45,11 +49,11 @@ public class Proposal extends AbstractVotable {
 	}
 
 	public Proposal() {
-
+		setExpirationDate();
 	}
 
 	public Proposal(User author, String category, String title, String content) {
-		super();
+		setExpirationDate();
 		this.author = author;
 		this.category = category;
 		this.title = title;
@@ -88,6 +92,14 @@ public class Proposal extends AbstractVotable {
 		return id;
 	}
 
+	public Date getExpirationDate() {
+		return expirationDate;
+	}
+
+	private void setExpirationDate() {
+		this.expirationDate = DateUtils.addDays(new Date(), Configuration.getInstance().getExpirationDays());
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -101,7 +113,9 @@ public class Proposal extends AbstractVotable {
 		if (comments != null ? !comments.equals(proposal.comments) : proposal.comments != null) return false;
 		if (category != null ? !category.equals(proposal.category) : proposal.category != null) return false;
 		if (title != null ? !title.equals(proposal.title) : proposal.title != null) return false;
-		return content != null ? content.equals(proposal.content) : proposal.content == null;
+		if (content != null ? !content.equals(proposal.content) : proposal.content != null) return false;
+		return expirationDate != null ? expirationDate.equals(proposal.expirationDate) : proposal.expirationDate == null;
+
 	}
 
 	@Override
@@ -113,6 +127,7 @@ public class Proposal extends AbstractVotable {
 		result = 31 * result + (category != null ? category.hashCode() : 0);
 		result = 31 * result + (title != null ? title.hashCode() : 0);
 		result = 31 * result + (content != null ? content.hashCode() : 0);
+		result = 31 * result + (expirationDate != null ? expirationDate.hashCode() : 0);
 		return result;
 	}
 
@@ -126,6 +141,7 @@ public class Proposal extends AbstractVotable {
 				", category='" + category + '\'' +
 				", title='" + title + '\'' +
 				", content='" + content + '\'' +
+				", expirationDate=" + expirationDate +
 				'}';
 	}
 }
