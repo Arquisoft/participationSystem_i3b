@@ -13,7 +13,7 @@ import java.util.List;
 public class Configuration {
     private static Configuration instance;
 	private List<String> categories;
-	private Date expirationDate;
+	private int expirationDateDays;
 	private List<String> notAllowedWords;
 	private int minimumSupportVotes;
 
@@ -22,7 +22,7 @@ public class Configuration {
 		this.categories.add("Cat1");
 		this.categories.add("Cat2");
 		this.categories.add("Cat3");
-		this.expirationDate = expirationDate;
+		this.expirationDateDays = 30;
 		this.notAllowedWords = new ArrayList<>();
 		this.notAllowedWords.add("ex1");
 		this.notAllowedWords.add("ex2");
@@ -41,8 +41,8 @@ public class Configuration {
 		return categories;
 	}
 
-	public Date getActiveDate() {
-		return expirationDate;
+	public int getExpirationDays() {
+		return expirationDateDays;
 	}
 
 	public List<String> getNotAllowedWords() {
@@ -60,7 +60,7 @@ public class Configuration {
 	@Override
 	public String toString() {
 		return "Configuration{" + ", categories=" + categories
-				+ ", expirationDate=" + expirationDate + ", notAllowedWords="
+				+ ", expirationDateDays=" + expirationDateDays + ", notAllowedWords="
 				+ notAllowedWords + ", minimumSupportVotes="
 				+ minimumSupportVotes + '}';
 	}
