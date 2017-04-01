@@ -62,7 +62,7 @@ public class MainController {
 		return "redirect:/selectProposal/" + id;
 	}
 
-	@RequestMapping(value = "upvoteComment/{id}")
+	@RequestMapping(value = "/upvoteComment/{id}")
 	public String upvoteComment(Model model, @PathVariable("id") String proposalId,
 			@PathVariable String id) {
 		Comment com = dbService.findCommentByID(id);
@@ -74,7 +74,7 @@ public class MainController {
 		return "redirect:/selectProposal/" + id;
 	}
 
-	@RequestMapping(value = "downvoteComment/{proposalId}/{id}")
+	@RequestMapping(value = "/downvoteComment/{proposalId}/{id}")
 	public String downvoteComment(Model model, @PathVariable("id") String proposalId,
 			@PathVariable String id) {
 		Comment com = dbService.findCommentByID(id);

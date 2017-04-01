@@ -3,6 +3,7 @@ package hello.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document(collection = "VotingSystem")
@@ -13,7 +14,7 @@ public class Proposal extends AbstractVotable {
 	private String id;
 
 	private User author;
-	private List<Comment> comments;
+	private List<Comment> comments = new ArrayList<Comment>();
 	private boolean isAccepted;
 	private String category;
 	private String title;
