@@ -24,8 +24,6 @@ public class User implements UserDetails {
 	private String name;
 	private Integer age;
 	private String password;
-	
-	
 
 	public void setName(String name) {
 		this.name = name;
@@ -95,6 +93,10 @@ public class User implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
 	}
 
 	@Override

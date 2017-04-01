@@ -16,6 +16,7 @@ public class RegistrationService {
 		User newUser = new User();
 		newUser.setName(data.getUsername());
 		newUser.setPassword(data.getPassword());
+		newUser.setAge(data.getAge());
 
 		userDataService.addUserData(newUser);
 		return true;

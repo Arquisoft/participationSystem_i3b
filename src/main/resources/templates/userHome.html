@@ -22,79 +22,70 @@
 <body>
 
 	<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-12">
-			<h1 class="text-center">
-				User Home
-			</h1>
+		<div class="row">
+			<div class="col-md-12">
+				<h1 class="text-center">User Home</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-7">
+				<h3>Proposals</h3>
+				<table class="table table-bordered table-hover">
+					<thead class="thead-inverse">
+						<tr>
+							<th>Title</th>
+							<th>Category</th>
+							<th>Vote balance</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="prop : ${proposals}">
+							<td th:text="${prop.getTitle()}"></td>
+							<td th:text="${prop.getCategory()}"></td>
+							<td th:text="${prop.getVoteBalance()}"></td>
+							<td><a th:href="${'/selectProposal/' + prop.getId()}"
+								class="btn btn-block btn-sm btn-info">Open</a></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-1"></div>
+			<div class="col-md-4">
+				<h3>Create your proposal</h3>
+				<form role="form" th:action="@{/createProposal}"
+					th:object="${createProposal}" method="POST">
+					<div class="form-group">
+
+						<label for="title">Title of the proposal: </label> <input
+							type="text" id="title" th:field="*{title}" class="form-control"
+							placeholder="Title of the Proposal" />
+					</div>
+					<div class="form-group">
+
+						<label for="content">Content: </label>
+						<textarea class="form-control" rows="5" id="content"
+							th:field="*{content}" placeholder="Write here your proposal"></textarea>
+					</div>
+					<div class="form-group">
+
+						<label for="category">Category: </label> <select id="category"
+							th:field="*{category}" class="form-control">
+							<option selected="true" value="base">Select a category</option>
+							<option th:each="cat:${categories}" th:value="${cat}"
+								th:text="${cat}"></option>
+						</select>
+					</div>
+
+					<button type="submit" class="btn btn-default">Submit</button>
+				</form>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8"></div>
+			<div class="col-md-4"></div>
 		</div>
 	</div>
-	<div class="row">
-		<div class="col-md-7">
-			<h3>
-				Proposals
-			</h3>
-			<table class="table table-bordered table-hover">
-				<thead class="thead-inverse">
-					<tr>
-				<th>Title</th>
-				<th>Category</th>
-				<th>Vote balance</th>
-				<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="prop : ${proposals}">
-				<td th:text="${prop.getTitle()}"></td>
-				<td th:text="${prop.getCategory()}"></td>
-				<td th:text="${prop.getVoteBalance()}"></td>
-				<td><a th:href="${'/selectProposal/' + prop.getId()}" class="btn btn-block btn-sm btn-info">Open</a></td>
-			</tr>
-				</tbody>
-			</table>
-		</div>
-		<div class="col-md-1">
-		</div>
-		<div class="col-md-4">
-			<h3>
-				Create your proposal
-			</h3>
-			<form role="form"  th:action="@{/createProposal}" th:object="${createProposal}"
-		method="POST">
-				<div class="form-group">
-					 
-					<label for="title">Title of the proposal: </label> <input type="text"
-				id="title" th:field="*{title}" class="form-control" placeholder="Title of the Proposal" />
-				</div>
-				<div class="form-group">
-					 
-					<label for="content">Content: </label>
-			<textarea class="form-control" rows="5" id="content"
-				th:field="*{content}" placeholder="Write here your proposal"></textarea>
-				</div>
-				<div class="form-group">
-					 
-					<label for="category">Category: </label> <select id="category"
-				th:field="*{category}" class="form-control">
-				<option selected="true" value="base">Select a category</option>
-				<option th:each="cat:${categories}" th:value="${cat}"
-					th:text="${cat}"></option>
-			</select>
-				</div>
-				
-				<button type="submit" class="btn btn-default">
-					Submit
-				</button>
-			</form>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-8">
-		</div>
-		<div class="col-md-4">
-		</div>
-	</div>
-</div>
 
 </body>
 </html>

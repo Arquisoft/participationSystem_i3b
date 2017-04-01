@@ -3,38 +3,87 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title>Spring Security Example</title>
+<title>Login page</title>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous">
+	
+</script>
+
+
 </head>
-<body>
+<body onload="generateAges()">
 	<div th:if="${param.error}">Invalid username and password.</div>
 	<div th:if="${param.logout}">You have been logged out.</div>
-	<form th:action="@{/login}" method="post">
-		<div>
-			<label> User Name : <input type="text" name="username" />
-			</label>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<h1 class="text-center text-primary">Participation System</h1>
+			</div>
 		</div>
-		<div>
-			<label> Password: <input type="password" name="password" />
-			</label>
-		</div>
-		<div>
-			<input type="submit" value="Sign In" />
-		</div>
-	</form>
+		<div class="row">
+			<div class="col-md-5">
+				<h3>Login</h3>
+				<form role="form" th:action="@{/login}" method="post">
+					<div class="form-group">
 
+						<label for="userNameInput"> Username: </label> <input type="text"
+							class="form-control" id="userNameInput" name="username"
+							placeholder="Username" />
+					</div>
+					<div class="form-group">
 
-	<form th:action="@{/register}" th:object="${createUser}" method="post">
-		<div>
-			<label> User Name : <input type="text" name="username" th:field="*{username}" />
-			</label>
+						<label for="passwordInput"> Password: </label> <input
+							type="password" class="form-control" id="passwordInput"
+							name="password" placeholder="Password" />
+					</div>
+
+					<button type="submit" class="btn btn-default">Login</button>
+				</form>
+			</div>
+			<div class="col-md-3"></div>
+			<div class="col-md-4">
+				<h3>Register</h3>
+				<form role="form" th:action="@{/register}" th:object="${createUser}"
+					method="post">
+					<div class="form-group">
+
+						<label for="registerUsername"> Username: </label> <input
+							type="text" class="form-control" id="registerUsername"
+							name="username" th:field="*{username}" placeholder="Username" />
+					</div>
+					<div class="form-group">
+
+						<label for="registerPassword"> Password: </label> <input
+							type="password" class="form-control" id="registerPassword"
+							name="password" placeholder="Password" th:field="*{password}" />
+					</div>
+
+					<div class="form-group">
+						<label for="registerAge"> Age: </label> <select id="ageSelect"
+							class="form-control" th:field="*{age}">
+							<option selected="true" value="18">Select your age</option>
+							<option th:each="n : ${#numbers.sequence(18,100)}" th:value="${n}" th:text="${n}"/>
+						</select>
+
+					</div>
+
+					<button type="submit" class="btn btn-default">Register</button>
+				</form>
+			</div>
 		</div>
-		<div>
-			<label> Password: <input type="password" name="password" th:field="*{password}" />
-			</label>
-		</div>
-		<div>
-			<input type="submit" value="Register" />
-		</div>
-	</form>
+	</div>
 </body>
 </html>
