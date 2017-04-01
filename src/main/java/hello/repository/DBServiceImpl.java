@@ -16,58 +16,62 @@ import java.util.List;
 @Service
 public class DBServiceImpl implements DBService {
 
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired
+	private UserRepository userRepository;
 
-    @Autowired
-    private CommentRepository commentRepository;
+	@Autowired
+	private CommentRepository commentRepository;
 
-    @Autowired
-    private ProposalRepository proposalRepository;
+	@Autowired
+	private ProposalRepository proposalRepository;
 
-    @Override
-    public Proposal insertProposal(Proposal proposal) {
-        proposalRepository.insert(proposal);
-        return proposal;
-    }
+	@Override
+	public Proposal insertProposal(Proposal proposal) {
+		proposalRepository.insert(proposal);
+		return proposal;
+	}
 
-    @Override
-    public Comment insertComment(Comment comment, Proposal proposal) {
-        proposal.getComments().add(comment);
-        proposalRepository.save(proposal);
-        return comment;
-    }
+	@Override
+	public Comment insertComment(Comment comment, Proposal proposal) {
+		proposal.getComments().put(comment.getId(), comment);
+		proposalRepository.save(proposal);
+		return comment;
+	}
 
-    @Override
-    public Comment updateComment(Comment comment) {
-        return commentRepository.save(comment);
-    }
+	@Override
+	public Comment updateComment(String proposalId, Comment comment) {
+		Proposal prop = findProposalById(proposalId);
+		prop.getComments().put(comment.getId(), comment);
+		proposalRepository.save(prop);
+		return comment;
+	}
 
-    @Override
-    public Comment findCommentByID(String id) {
-        return commentRepository.findById(id);
-    }
+	@Override
+	public Comment findCommentByID(String proposalId, String id) {
+		Proposal proposal = proposalRepository.findById(proposalId);
+		return proposal.getComments().get(id);
 
-    @Override
-    public Proposal updateProposal(Proposal proposal) {
-        return proposalRepository.save(proposal);
-    }
+	}
 
-    @Override
-    public Proposal findProposalById(String id) {
-        return proposalRepository.findById(id);
-    }
+	@Override
+	public Proposal updateProposal(Proposal proposal) {
+		return proposalRepository.save(proposal);
+	}
 
-    @Override
-    public List<Proposal> findAllProposals() {
-        return proposalRepository.findAll();
-    }
+	@Override
+	public Proposal findProposalById(String id) {
+		return proposalRepository.findById(id);
+	}
 
+	@Override
+	public List<Proposal> findAllProposals() {
+		return proposalRepository.findAll();
+	}
 
 	@Override
 	public void addUser(User user) {
 		userRepository.insert(user);
-		
+
 	}
 
 	@Override

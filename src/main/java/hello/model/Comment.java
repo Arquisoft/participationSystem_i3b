@@ -5,15 +5,18 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "VotingSystem")
 public class Comment extends AbstractVotable {
+
+	static int actualId = 0;
+
 	@Id
 	private String id;
 	private User user;
 	private String content;
-	
-	
+	private String idProposal;
 
 	public Comment() {
-
+		actualId++;
+		this.id = actualId + "";
 	}
 
 	public Comment(User user, String content) {
@@ -42,16 +45,33 @@ public class Comment extends AbstractVotable {
 		this.content = content;
 	}
 
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getIdProposal() {
+		return idProposal;
+	}
+
+	public void setIdProposal(String idProposal) {
+		this.idProposal = idProposal;
+	}
+
 	@Override
 	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
 
 		Comment comment = (Comment) o;
 
-		if (id != null ? !id.equals(comment.id) : comment.id != null) return false;
-		if (user != null ? !user.equals(comment.user) : comment.user != null) return false;
-		return content != null ? content.equals(comment.content) : comment.content == null;
+		if (id != null ? !id.equals(comment.id) : comment.id != null)
+			return false;
+		if (user != null ? !user.equals(comment.user) : comment.user != null)
+			return false;
+		return content != null ? content.equals(comment.content)
+				: comment.content == null;
 	}
 
 	@Override
@@ -64,10 +84,7 @@ public class Comment extends AbstractVotable {
 
 	@Override
 	public String toString() {
-		return "Comment{" +
-				"id='" + id + '\'' +
-				", user=" + user +
-				", content='" + content + '\'' +
-				'}';
+		return "Comment{" + "id='" + id + '\'' + ", user=" + user
+				+ ", content='" + content + '\'' + '}';
 	}
 }

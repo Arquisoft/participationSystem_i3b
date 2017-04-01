@@ -67,28 +67,28 @@ public class MainController {
 		return "redirect:/selectProposal/" + id;
 	}
 
-	@RequestMapping(value = "/upvoteComment/{id}")
+	@RequestMapping(value = "/upvoteComment/{proposalId}/{id}")
 	public String upvoteComment(Model model,
-			@PathVariable("id") String proposalId, @PathVariable String id) {
-		Comment com = dbService.findCommentByID(id);
+			@PathVariable("proposalId") String proposalId, @PathVariable("id") String id) {
+		Comment com = dbService.findCommentByID(proposalId,id);
 		if (com != null) {
 			com.upvote();
-			dbService.updateComment(com);
+			dbService.updateComment(proposalId,com);
 		}
 		// kafkaProducer.send("upvoted Comment", "test");
-		return "redirect:/selectProposal/" + id;
+		return "redirect:/selectProposal/" + proposalId;
 	}
 
 	@RequestMapping(value = "/downvoteComment/{proposalId}/{id}")
 	public String downvoteComment(Model model,
-			@PathVariable("id") String proposalId, @PathVariable String id) {
-		Comment com = dbService.findCommentByID(id);
+			@PathVariable("proposalId") String proposalId, @PathVariable("id") String id) {
+		Comment com = dbService.findCommentByID(proposalId,id);
 		if (com != null) {
 			com.downvote();
-			dbService.updateComment(com);
+			dbService.updateComment(proposalId,com);
 		}
 		// kafkaProducer.send("downvoted Comment", "test");
-		return "redirect:/selectProposal/" + id;
+		return "redirect:/selectProposal/" + proposalId;
 	}
 
 	@RequestMapping("/")
@@ -125,6 +125,7 @@ public class MainController {
 			@ModelAttribute CreateComment createComment) {
 		Comment comment = new Comment();
 		comment.setContent(createComment.getContent());
+		comment.setIdProposal(id);
 		Proposal prop = dbService.findProposalById(id);
 		dbService.insertComment(comment, prop);
 		// kafkaProducer.send("new Comment", "test");

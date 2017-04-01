@@ -14,21 +14,24 @@ import org.apache.catalina.startup.UserDatabase;
 
 public interface DBService {
 
-    //Comment methods
-    Comment insertComment(Comment comment, Proposal proposal);
-    Comment updateComment(Comment comment);
-    Comment findCommentByID(String id);
-    //Proposal methods
-    Proposal insertProposal(Proposal proposal);
-    Proposal updateProposal(Proposal proposal);
-    Proposal findProposalById(String id);
-    List<Proposal> findAllProposals();
-    
-    public void addUser(User user);
-    
-    public User getUser(String username);
-    
-    
-    
+	// Comment methods
+	Comment insertComment(Comment comment, Proposal proposal);
+
+	Comment updateComment(String proposalId, Comment comment);
+
+	// Proposal methods
+	Proposal insertProposal(Proposal proposal);
+
+	Proposal updateProposal(Proposal proposal);
+
+	Proposal findProposalById(String id);
+
+	List<Proposal> findAllProposals();
+
+	public void addUser(User user);
+
+	public User getUser(String username);
+
+	Comment findCommentByID(String proposalId, String id);
 
 }

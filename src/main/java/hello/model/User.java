@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Document(collection = "VotingSystem")
+@Document(collection = "UserVotingSystem")
 public class User implements UserDetails {
 
 	/**
