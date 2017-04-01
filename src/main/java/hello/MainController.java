@@ -3,6 +3,8 @@ package hello;
 import hello.model.*;
 import hello.repository.DBService;
 import hello.repository.DBServiceImpl;
+import hello.services.RegistrationService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +20,9 @@ public class MainController {
 
 	@Autowired
 	private DBServiceImpl dbService;
+	
+	@Autowired
+	private RegistrationService registration;
 
 	@Autowired
 	private KafkaProducer kafkaProducer;
@@ -63,8 +68,8 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/upvoteComment/{id}")
-	public String upvoteComment(Model model, @PathVariable("id") String proposalId,
-			@PathVariable String id) {
+	public String upvoteComment(Model model,
+			@PathVariable("id") String proposalId, @PathVariable String id) {
 		Comment com = dbService.findCommentByID(id);
 		if (com != null) {
 			com.upvote();
@@ -75,8 +80,8 @@ public class MainController {
 	}
 
 	@RequestMapping(value = "/downvoteComment/{proposalId}/{id}")
-	public String downvoteComment(Model model, @PathVariable("id") String proposalId,
-			@PathVariable String id) {
+	public String downvoteComment(Model model,
+			@PathVariable("id") String proposalId, @PathVariable String id) {
 		Comment com = dbService.findCommentByID(id);
 		if (com != null) {
 			com.downvote();
@@ -89,6 +94,18 @@ public class MainController {
 	@RequestMapping("/")
 	public ModelAndView landing(Model model) {
 		return new ModelAndView("redirect:" + "/userHome");
+	}
+
+	@GetMapping("/login")
+	public String login(Model model) {
+		model.addAttribute("createUser", new CreateUser());
+		return "login";
+	}
+	
+	@RequestMapping("/register")
+	public String register(Model model,@ModelAttribute CreateUser createUser){
+		registration.registrate(createUser);
+		return "login";
 	}
 
 	@RequestMapping("/createProposal")

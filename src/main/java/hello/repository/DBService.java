@@ -6,6 +6,8 @@ import hello.model.User;
 
 import java.util.List;
 
+import org.apache.catalina.startup.UserDatabase;
+
 /**
  * Created by ADRIÁN on 28/03/2017.
  */
@@ -21,5 +23,12 @@ public interface DBService {
     Proposal updateProposal(Proposal proposal);
     Proposal findProposalById(String id);
     List<Proposal> findAllProposals();
+    
+    public void addUser(User user);
+    
+    public User getUser(String username);
+    
+    
+    
 
 }

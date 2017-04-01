@@ -1,6 +1,10 @@
 package hello.repository;
 
+import hello.model.Proposal;
 import hello.model.User;
+
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,5 +14,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
 
-    //User findByEmail(String email);
+	// User findByEmail(String email);
+	public User findByName(String username);
+
+	User insert(User user);
+
+	List<User> findAll();
 }

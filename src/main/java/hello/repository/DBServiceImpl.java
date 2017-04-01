@@ -2,6 +2,8 @@ package hello.repository;
 
 import hello.model.Comment;
 import hello.model.Proposal;
+import hello.model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -60,4 +62,16 @@ public class DBServiceImpl implements DBService {
     public List<Proposal> findAllProposals() {
         return proposalRepository.findAll();
     }
+
+
+	@Override
+	public void addUser(User user) {
+		userRepository.insert(user);
+		
+	}
+
+	@Override
+	public User getUser(String username) {
+		return userRepository.findByName(username);
+	}
 }
