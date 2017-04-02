@@ -100,7 +100,7 @@ public class RegisterTest {
 		driver.findElement(By.id("passwordInput")).clear();
 		driver.findElement(By.id("passwordInput")).sendKeys("test");
 		driver.findElement(By.id("loginButton")).click();
-		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Register", 10);
+		SeleniumUtils.esperaCargaPaginaNoTexto(driver, "Register", 10);
 		SeleniumUtils.textoPresentePagina(driver, "User Home");
 	}
 
@@ -111,7 +111,7 @@ public class RegisterTest {
 		driver.findElement(By.id("passwordInput")).clear();
 		driver.findElement(By.id("passwordInput")).sendKeys("admin");
 		driver.findElement(By.id("loginButton")).click();
-		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Register", 10);
+		SeleniumUtils.esperaCargaPaginaNoTexto(driver, "Register", 10);
 		SeleniumUtils.textoPresentePagina(driver, "Admin Panel");
 	}
 
@@ -131,7 +131,7 @@ public class RegisterTest {
 				"Cat1");
 		driver.findElement(By.id("SubmitProp")).click();
 
-		SeleniumUtils.EsperaCargaPagina(driver, "text", proposalName, 15);
+		SeleniumUtils.esperaCargaPagina(driver, "text", proposalName, 15);
 
 	}
 
@@ -140,13 +140,13 @@ public class RegisterTest {
 	public void test4() throws Exception {
 		login();
 		driver.findElement(By.id(proposalName)).click();
-		SeleniumUtils.EsperaCargaPagina(driver, "id", "upvote", 10);
+		SeleniumUtils.esperaCargaPagina(driver, "id", "upvote", 10);
 		driver.findElement(By.id("upvote")).click();
-		SeleniumUtils.EsperaCargaPagina(driver, "id", "upVotes", 10);
+		SeleniumUtils.esperaCargaPagina(driver, "id", "upVotes", 10);
 		assertEquals(driver.findElement(By.id("upVotes")).getText(), "1");
 		assertEquals(driver.findElement(By.id("downVotes")).getText(), "0");
 		driver.findElement(By.id("downvote")).click();
-		SeleniumUtils.EsperaCargaPagina(driver, "id", "downVotes", 10);
+		SeleniumUtils.esperaCargaPagina(driver, "id", "downVotes", 10);
 		assertEquals(driver.findElement(By.id("downVotes")).getText(), "1");
 		assertEquals(driver.findElement(By.id("upVotes")).getText(), "0");
 	}
@@ -156,12 +156,12 @@ public class RegisterTest {
 	public void test5() throws Exception {
 		login();
 		driver.findElement(By.id(proposalName)).click();
-		SeleniumUtils.EsperaCargaPagina(driver, "id", "contentInput", 10);
+		SeleniumUtils.esperaCargaPagina(driver, "id", "contentInput", 10);
 		driver.findElement(By.id("contentInput")).clear();
 		driver.findElement(By.id("contentInput")).sendKeys(
 				"This is a comment on a proposal");
 		driver.findElement(By.id("SubmitComment")).click();
-		SeleniumUtils.EsperaCargaPagina(driver, "text",
+		SeleniumUtils.esperaCargaPagina(driver, "text",
 				"This is a comment on a proposal", 10);
 
 	}
@@ -177,7 +177,7 @@ public class RegisterTest {
 	public void test7() throws Exception {
 		loginAdmin();
 		driver.findElement(By.id("delete_" + proposalName)).click();
-		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, proposalName, 15);
+		SeleniumUtils.esperaCargaPaginaNoTexto(driver, proposalName, 15);
 		SeleniumUtils.textoNoPresentePagina(driver, proposalName);
 
 	}

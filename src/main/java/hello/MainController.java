@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -153,13 +152,11 @@ public class MainController {
 		NotAllowedWordsValidator validator = new NotAllowedWordsValidator();
 		validator.validate(proposal, result);
 
-		if (result.hasErrors()) {
-
-		} else {
+		if (!result.hasErrors()) {
 			dbService.insertProposal(proposal);
 			kafkaProducer.send("createdProposal", "created proposal");
-
 		}
+
 		return "redirect:/userHome";
 	}
 

@@ -5,9 +5,9 @@ import java.util.Map;
 
 public class AbstractVotable implements Votable {
 
-	Map<String, VoteType> votes;
-	int positiveVotes;
-	int negativeVotes;
+	protected Map<String, VoteType> votes;
+	protected int positiveVotes;
+	protected int negativeVotes;
 
 	AbstractVotable() {
 		this.votes = new HashMap<>();

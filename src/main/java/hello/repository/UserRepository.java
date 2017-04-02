@@ -1,6 +1,5 @@
 package hello.repository;
 
-import hello.model.Proposal;
 import hello.model.User;
 
 import java.util.List;

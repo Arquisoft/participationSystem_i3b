@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "comment")
 public class Comment extends AbstractVotable {
 
-	static int actualId = 0;
+	private static int actualId = 0;
 
 	@Id
 	private String id;

@@ -15,7 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 public class SecurityFilter extends WebSecurityConfigurerAdapter {
 
 	@Autowired
-	UserDataService userDataService;
+	private UserDataService userDataService;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {

@@ -4,11 +4,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import hello.repository.DBServiceImpl;
-
 /**
  * @author Oriol The council gives the config directly to the system admin (?)
  */

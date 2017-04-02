@@ -1,7 +1,6 @@
 package hello.repository;
 
 import hello.model.Comment;
-import hello.model.Proposal;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
