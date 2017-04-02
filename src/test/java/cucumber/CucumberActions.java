@@ -1,3 +1,7 @@
+package cucumber;
+
+import cucumber.api.PendingException;
+import cucumber.api.java.After;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -38,10 +42,21 @@ public class CucumberActions {
     }
 
     public static void tearDown() {
+        driver.quit();
     }
 
-    @Given("^the user navigates to \"([^\"]*)\"$")
-    public void UserNavigatesTo(String url) throws Throwable {
+    @After
+    public void cleanCookies() {
+        driver.manage().deleteAllCookies();
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Given("^user navigates to \"([^\"]*)\"$")
+    public void userNavigatesTo(String url) throws Throwable {
         driver.get(url);
     }
 
@@ -85,5 +100,11 @@ public class CucumberActions {
     @Then("^the user successfully logs in$")
     public void commentAppears(String content) throws Throwable {
         assertTrue(driver.findElementsByXPath("//*[contains(text(), '" + content + "')]").size() > 0);
+    }
+
+    @Then("^a comment appears with content \"([^\"]*)\"$")
+    public void aCommentAppearsWithContent(String arg0) throws Throwable {
+        // Write code here that turns the phrase above into concrete actions
+        throw new PendingException();
     }
 }

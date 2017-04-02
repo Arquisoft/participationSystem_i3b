@@ -17,7 +17,7 @@ public class KafkaTopicCreation {
         ZkClient zkClient = null;
         ZkUtils zkUtils;
         try {
-            String zookeeperHosts = "192.168.20.1:2181";
+            String zookeeperHosts = "localhost:2181";
             int sessionTimeOutInMs = 15 * 1000; // 15 secs
             int connectionTimeOutInMs = 10 * 1000; // 10 secs
 

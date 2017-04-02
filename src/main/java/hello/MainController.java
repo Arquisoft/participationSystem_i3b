@@ -55,7 +55,6 @@ public class MainController {
 			return "adminHome";
 		}
 		model.addAttribute("createProposal", new CreateProposal());
-		// model.addAttribute("proposals", new ArrayList<Proposal>());
 
 		return "userHome";
 	}
@@ -74,6 +73,7 @@ public class MainController {
 			prop.upvote(user.getName());
 			dbService.updateProposal(prop);
 		}
+		kafkaProducer.send("upvotedProposal", "upvoted proposal");
 		return "redirect:/selectProposal/" + id;
 
 	}
@@ -87,6 +87,9 @@ public class MainController {
 			prop.downvote(user.getName());
 			dbService.updateProposal(prop);
 		}
+
+		kafkaProducer.send("downvotedProposal", "downvoted proposal");
+
 		return "redirect:/selectProposal/" + id;
 	}
 
@@ -101,7 +104,7 @@ public class MainController {
 			com.upvote(user.getName());
 			dbService.updateComment(proposalId, com);
 		}
-		// kafkaProducer.send("upvoted Comment", "test");
+		kafkaProducer.send("upvotedComment", "upvoted comment");
 		return "redirect:/selectProposal/" + proposalId;
 	}
 
@@ -116,7 +119,7 @@ public class MainController {
 			com.downvote(user.getName());
 			dbService.updateComment(proposalId, com);
 		}
-		// kafkaProducer.send("downvoted Comment", "test");
+		kafkaProducer.send("downvotedComment", "downvoted comment");
 		return "redirect:/selectProposal/" + proposalId;
 	}
 
@@ -154,6 +157,7 @@ public class MainController {
 
 		} else {
 			dbService.insertProposal(proposal);
+			kafkaProducer.send("createdProposal", "created proposal");
 
 		}
 		return "redirect:/userHome";
@@ -165,8 +169,6 @@ public class MainController {
 		return "redirect:/userHome";
 	}
 
-	// kafkaProducer.send("new Proposal", "test");}
-
 	@RequestMapping("/createComment/{id}")
 	public String commentProposal(Model model, @PathVariable("id") String id,
 			@ModelAttribute CreateComment createComment) {
@@ -175,7 +177,7 @@ public class MainController {
 		comment.setIdProposal(id);
 		Proposal prop = dbService.findProposalById(id);
 		dbService.insertComment(comment, prop);
-		// kafkaProducer.send("new Comment", "test");
+		kafkaProducer.send("createdComment", "created comment");
 		return "redirect:/selectProposal/" + id;
 	}
 
