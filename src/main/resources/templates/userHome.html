@@ -46,7 +46,7 @@
 							<td th:text="${prop.getVoteBalance()}"></td>
 							<td><a th:href="${'/selectProposal/' + prop.getId()}"
 								class="btn btn-block btn-sm btn-info"
-                                id="${prop.getTitle()}">Open</a></td>
+                                th:id="${prop.getTitle()}">Open</a></td>
 						</tr>
 					</tbody>
 				</table>
@@ -76,7 +76,7 @@
 						<select id="category" th:field="*{category}" class="form-control">
 							<option selected="true" value="base">Select a category</option>
 							<option th:each="cat:${categories}" th:value="${cat}" th:text="${cat}"
-                                id="${cat}">
+                                th:id="${cat}">
                             </option>
 						</select>
 					</div>

@@ -1,4 +1,4 @@
-package cucumber;
+package hello;
 
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
@@ -97,14 +97,9 @@ public class CucumberActions {
         driver.findElement(By.id("SubmitComment")).click();
     }
 
-    @Then("^the user successfully logs in$")
+    @Then("^a comment appears with content \"([^\"]*)\"$")
     public void commentAppears(String content) throws Throwable {
         assertTrue(driver.findElementsByXPath("//*[contains(text(), '" + content + "')]").size() > 0);
     }
 
-    @Then("^a comment appears with content \"([^\"]*)\"$")
-    public void aCommentAppearsWithContent(String arg0) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
-    }
 }
