@@ -21,6 +21,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxBinary;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.support.ui.Select;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -42,7 +43,7 @@ public class CucumberActions {
     private static FirefoxDriver driver;
     private static MongoClient mongoClient = new MongoClient("localhost", 27017);
     private static MongoDatabase db = mongoClient.getDatabase("test");
-    private static MongoCollection<Document> users = db.getCollection("users");
+    private static MongoCollection<Document> users = db.getCollection("user");
 
     public static void setUp() {
         FirefoxBinary ffBinary = null;
@@ -89,9 +90,10 @@ public class CucumberActions {
         driver.findElement(By.id("titleInput")).sendKeys(title);
         driver.findElement(By.id("contentInput")).clear();
         driver.findElement(By.id("contentInput")).sendKeys(content);
-        driver.findElement(By.id("category")).click();
-        Thread.sleep(500);
-        driver.findElement(By.id(category)).click();
+        Select select = new Select(driver.findElement(By.id("category")));
+        select.selectByVisibleText("Cat1");
+        //driver.findElement(By.id("category")).click();
+        //driver.findElement(By.id(category)).click();
         driver.findElement(By.id("SubmitProp")).click();
     }
 
@@ -127,12 +129,13 @@ public class CucumberActions {
             JSONArray parse = parseArray("test.json");
 
             JSONObject user = (JSONObject) parse.get(0);
-            
-            users.insertOne(new Document().append("id", new ObjectId(user.getString("_id")))
+
+            users.deleteMany(new BsonDocument());
+            users.insertOne(new Document().append("_id", new ObjectId(user.getString("_id")))
                     .append("name", user.getString("name"))
                     .append("password", user.getString("password"))
                     .append("isAdmin", user.getString("isAdmin")));
-            
+
         } catch (IOException e) {
             e.printStackTrace();
         }

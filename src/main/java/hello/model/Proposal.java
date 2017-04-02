@@ -10,7 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import hello.Util.DateUtils;
 
-@Document(collection = "VotingSystem")
+@Document(collection = "proposal")
 public class Proposal extends AbstractVotable {
 
 	@Id

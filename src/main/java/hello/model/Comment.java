@@ -3,7 +3,7 @@ package hello.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "VotingSystem")
+@Document(collection = "comment")
 public class Comment extends AbstractVotable {
 
 	static int actualId = 0;

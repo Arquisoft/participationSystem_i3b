@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-@Document(collection = "UserVotingSystem")
+@Document(collection = "user")
 public class User implements UserDetails {
 
 	private static final long serialVersionUID = 1L;
