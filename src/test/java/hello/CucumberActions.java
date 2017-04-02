@@ -1,5 +1,8 @@
 package hello;
 
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.en.And;
@@ -8,6 +11,11 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import hello.Application;
 import org.apache.commons.lang3.SystemUtils;
+import org.bson.BsonDocument;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.firefox.FirefoxBinary;
@@ -17,7 +25,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import static org.junit.Assert.assertTrue;
 
@@ -29,7 +40,9 @@ import static org.junit.Assert.assertTrue;
 @SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 public class CucumberActions {
     private static FirefoxDriver driver;
-
+    private static MongoClient mongoClient = new MongoClient("localhost", 27017);
+    private static MongoDatabase db = mongoClient.getDatabase("test");
+    private static MongoCollection<Document> users = db.getCollection("users");
 
     public static void setUp() {
         FirefoxBinary ffBinary = null;
@@ -55,7 +68,7 @@ public class CucumberActions {
         }
     }
 
-    @Given("^user navigates to \"([^\"]*)\"$")
+    @And("^user navigates to \"([^\"]*)\"$")
     public void userNavigatesTo(String url) throws Throwable {
         driver.get(url);
     }
@@ -71,11 +84,13 @@ public class CucumberActions {
 
     @And("^user creates proposal \"([^\"]*)\" with content \"([^\"]*)\" and category \"([^\"]*)\"$")
     public void userCreatesProposal(String title, String content, String category) throws Throwable {
+        Thread.sleep(500);
         driver.findElement(By.id("titleInput")).clear();
         driver.findElement(By.id("titleInput")).sendKeys(title);
         driver.findElement(By.id("contentInput")).clear();
         driver.findElement(By.id("contentInput")).sendKeys(content);
         driver.findElement(By.id("category")).click();
+        Thread.sleep(500);
         driver.findElement(By.id(category)).click();
         driver.findElement(By.id("SubmitProp")).click();
     }
@@ -92,6 +107,7 @@ public class CucumberActions {
 
     @When("^user creates a comment with content \"([^\"]*)\"$")
     public void userComments(String content) throws Throwable {
+        Thread.sleep(500);
         driver.findElement(By.id("contentInput")).clear();
         driver.findElement(By.id("contentInput")).sendKeys(content);
         driver.findElement(By.id("SubmitComment")).click();
@@ -99,7 +115,42 @@ public class CucumberActions {
 
     @Then("^a comment appears with content \"([^\"]*)\"$")
     public void commentAppears(String content) throws Throwable {
+        Thread.sleep(500);
         assertTrue(driver.findElementsByXPath("//*[contains(text(), '" + content + "')]").size() > 0);
     }
+
+    @Given("^database is loaded$")
+    public void theTestDatabaseIsLoaded() throws Throwable {
+        users.deleteMany(new BsonDocument());
+
+        try {
+            JSONArray parse = parseArray("test.json");
+
+            JSONObject user = (JSONObject) parse.get(0);
+            
+            users.insertOne(new Document().append("id", new ObjectId(user.getString("_id")))
+                    .append("userId", user.getString("username"))
+                    .append("password", user.getString("password"))
+                    .append("isAdmin", user.getString("isAdmin")));
+            
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private JSONArray parseArray(String name) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getClassLoader()
+                .getResourceAsStream(name)));
+        String line;
+        StringBuilder result = new StringBuilder();
+
+        while ((line = br.readLine()) != null) {
+            result.append(line);
+        }
+        br.close();
+
+        return new JSONArray(result.toString());
+    }
+
 
 }
