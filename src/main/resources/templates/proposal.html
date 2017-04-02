@@ -50,8 +50,10 @@
 								</thead>
 								<tbody>
 									<tr>
-										<td class="text-center" th:text="${prop.getUpvotes()}" id="upVotes"></td>
-										<td class="text-center" th:text="${prop.getDownvotes()}" id="downVotes"></td>
+										<td class="text-center" th:text="${prop.getUpvotes()}"
+											id="upVotes"></td>
+										<td class="text-center" th:text="${prop.getDownvotes()}"
+											id="downVotes"></td>
 									</tr>
 
 									<tr>
@@ -109,9 +111,11 @@
 													<tr>
 														<td><a
 															th:href="${'/upvoteComment/'+ idProposal +'/'+idComment}"
-															class="btn btn-xs btn-success"><span
+															class="btn btn-xs btn-success"
+															th:id="${idComment+'upVote'}"><span
 																class="glyphicon glyphicon-thumbs-up"></span> </a></td>
-														<td class="text-center" th:text="${com.getUpvotes()}"></td>
+														<td class="text-center" th:text="${com.getUpvotes()}"
+															th:id="${idComment+'upVotes'}"></td>
 
 													</tr>
 
@@ -119,8 +123,10 @@
 														<td><a
 															th:href="${'/downvoteComment/'+ idProposal +'/'+idComment}"
 															class="btn btn-xs btn-danger"><span
-																class="glyphicon glyphicon-thumbs-down"></span> </a></td>
-														<td class="text-center" th:text="${com.getDownvotes()}"></td>
+																class="glyphicon glyphicon-thumbs-down"
+																th:id="${idComment+'downVote'}"></span> </a></td>
+														<td class="text-center" th:text="${com.getDownvotes()}"
+															th:id="${idComment+'downVotes'}"></td>
 
 
 
@@ -158,9 +164,7 @@
 									th:field="*{content}" placeholder="Write here your comment"></textarea>
 								<!-- <input type="hidden" id="author" th:field="*{author}" value="${author}"/> -->
 								<button value="Comment" type="submit" class="btn btn-default"
-									id="SubmitComment">
-									Send comment
-								</button>
+									id="SubmitComment">Send comment</button>
 							</form>
 						</div>
 						<div class="col-md-6"></div>

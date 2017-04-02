@@ -75,6 +75,17 @@ public class RegisterTest {
 		SeleniumUtils.textoPresentePagina(driver, "User Home");
 	}
 
+	private void loginAdmin() {
+		driver.get(baseUrl);
+		driver.findElement(By.id("userNameInput")).clear();
+		driver.findElement(By.id("userNameInput")).sendKeys("admin");
+		driver.findElement(By.id("passwordInput")).clear();
+		driver.findElement(By.id("passwordInput")).sendKeys("admin");
+		driver.findElement(By.id("loginButton")).click();
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, "Register", 10);
+		SeleniumUtils.textoPresentePagina(driver, "Admin Panel");
+	}
+
 	// P3: Create a new proposal
 	@Test
 	public void test3() throws Exception {
@@ -95,7 +106,7 @@ public class RegisterTest {
 
 	}
 
-	// P3: Vote up and down a proposal
+	// P4: Vote up and down a proposal
 	@Test
 	public void test4() throws Exception {
 		login();
@@ -109,6 +120,27 @@ public class RegisterTest {
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "downVotes", 10);
 		assertEquals(driver.findElement(By.id("downVotes")).getText(), "1");
 		assertEquals(driver.findElement(By.id("upVotes")).getText(), "0");
+	}
+
+	// P5: Comment a proposal and vote it
+	@Test
+	public void test5() throws Exception {
+		login();
+		driver.findElement(By.id(proposalName)).click();
+		SeleniumUtils.EsperaCargaPagina(driver, "id", "contentInput", 10);
+		driver.findElement(By.id("contentInput")).clear();
+		driver.findElement(By.id("contentInput")).sendKeys(
+				"This is a comment on a proposal");
+		driver.findElement(By.id("SubmitComment")).click();
+		SeleniumUtils.EsperaCargaPagina(driver, "text",
+				"This is a comment on a proposal", 10);
+
+	}
+
+	// P6: Login as Admin
+	@Test
+	public void test6() throws Exception {
+		loginAdmin();
 	}
 
 	@After
