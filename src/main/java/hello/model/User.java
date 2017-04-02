@@ -12,9 +12,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 @Document(collection = "UserVotingSystem")
 public class User implements UserDetails {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	// Log
 	private static final Logger LOG = LoggerFactory.getLogger(User.class);
