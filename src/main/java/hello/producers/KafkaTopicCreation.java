@@ -12,7 +12,7 @@ import org.I0Itec.zkclient.ZkConnection;
 /**
  * Created by Oriol on 02/04/2017.
  */
-public class KafkaTopicCreationInJava {
+public class KafkaTopicCreation {
     public static void createTopic(String topicName, int partitions, int replication) throws Exception {
         ZkClient zkClient = null;
         ZkUtils zkUtils;

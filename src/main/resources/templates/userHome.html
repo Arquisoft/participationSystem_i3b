@@ -45,7 +45,8 @@
 							<td th:text="${prop.getCategory()}"></td>
 							<td th:text="${prop.getVoteBalance()}"></td>
 							<td><a th:href="${'/selectProposal/' + prop.getId()}"
-								class="btn btn-block btn-sm btn-info">Open</a></td>
+								class="btn btn-block btn-sm btn-info"
+                                id="${prop.getTitle()}">Open</a></td>
 						</tr>
 					</tbody>
 				</table>
@@ -57,29 +58,30 @@
 					th:object="${createProposal}" method="POST">
 					<div class="form-group">
 
-						<label for="title">Title of the proposal: </label> <input
-							type="text" id="title" th:field="*{title}" class="form-control"
+						<label for="titleInput">Title of the proposal: </label> <input
+							type="text" id="titleInput" th:field="*{title}" class="form-control"
 							placeholder="Title of the Proposal" />
 						<p th:if="${#fields.hasErrors('global')}" th:errors="*{global}">Title
 							contains not allowed words</p>
 					</div>
 					<div class="form-group">
 
-						<label for="content">Content: </label>
-						<textarea class="form-control" rows="5" id="content"
+						<label for="contentInput">Content: </label>
+						<textarea class="form-control" rows="5" id="contentInput"
 							th:field="*{content}" placeholder="Write here your proposal"></textarea>
 					</div>
 					<div class="form-group">
 
-						<label for="category">Category: </label> <select id="category"
-							th:field="*{category}" class="form-control">
+						<label for="category">Category: </label>
+						<select id="category" th:field="*{category}" class="form-control">
 							<option selected="true" value="base">Select a category</option>
-							<option th:each="cat:${categories}" th:value="${cat}"
-								th:text="${cat}"></option>
+							<option th:each="cat:${categories}" th:value="${cat}" th:text="${cat}"
+                                id="${cat}">
+                            </option>
 						</select>
 					</div>
 
-					<button type="submit" class="btn btn-default">Submit</button>
+					<button type="submit" class="btn btn-default" id="SubmitProp">Submit</button>
 				</form>
 			</div>
 		</div>

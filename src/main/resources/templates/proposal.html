@@ -56,10 +56,10 @@
 
 									<tr>
 										<td><a th:href="${'/upvoteProposal/'+ idProposal}"
-											class="btn btn-block btn-lg btn-success"> <span
+											class="btn btn-block btn-lg btn-success" id="upvote"> <span
 												class="glyphicon glyphicon-thumbs-up"></span></a></td>
 										<td><a th:href="${'/downvoteProposal/' + idProposal}"
-											class="btn btn-block btn-lg btn-danger"> <span
+											class="btn btn-block btn-lg btn-danger" id="downvote"> <span
 												class="glyphicon glyphicon-thumbs-down"></span></a></td>
 									</tr>
 
@@ -154,11 +154,13 @@
 							<form role="form" th:action="@{/createComment/} + ${idProposal}"
 								th:object="${createComment}" method="POST">
 
-								<textarea class="form-control" rows="5" id="content"
+								<textarea class="form-control" rows="5" id="contentInput"
 									th:field="*{content}" placeholder="Write here your comment"></textarea>
 								<!-- <input type="hidden" id="author" th:field="*{author}" value="${author}"/> -->
-								<button value="Comment" type="submit" class="btn btn-default">Send
-									comment</button>
+								<button value="Comment" type="submit" class="btn btn-default"
+									id="SubmitComment">
+									Send comment
+								</button>
 							</form>
 						</div>
 						<div class="col-md-6"></div>
