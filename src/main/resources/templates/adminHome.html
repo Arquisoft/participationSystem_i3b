@@ -51,7 +51,7 @@
 									<td><a th:href="${'/selectProposal/' + prop.getId()}"
 										class="btn btn-block btn-sm btn-info">Open</a></td>
 									<td><a th:href="${'/deleteProposal/' + prop.getId()}"
-										class="btn btn-block btn-danger">Delete</a></td>
+										class="btn btn-block btn-danger" th:id="${'delete_'+prop.getTitle()}">Delete</a></td>
 								</tr>
 
 							</tbody>

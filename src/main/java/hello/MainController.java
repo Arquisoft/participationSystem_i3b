@@ -195,6 +195,7 @@ public class MainController {
 	public List<String> notAllowedWords() {
 		return new ArrayList<String>(Configuration.getInstance().getNotAllowedWords());
 	}
+	
 
 	@ModelAttribute("author")
 	public User author() {
