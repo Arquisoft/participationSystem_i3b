@@ -124,7 +124,7 @@ public class CucumberActions {
 
             JSONObject user = (JSONObject) parse.get(0);
             
-            users.insertOne(new Document().append("id", new ObjectId(user.getString("id")))
+            users.insertOne(new Document().append("id", new ObjectId(user.getString("_id")))
                     .append("userId", user.getString("username"))
                     .append("password", user.getString("password"))
                     .append("isAdmin", user.getString("isAdmin")));
