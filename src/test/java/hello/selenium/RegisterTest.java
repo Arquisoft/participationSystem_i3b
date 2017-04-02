@@ -8,17 +8,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import hello.Application;
 import org.apache.commons.lang3.SystemUtils;
 import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -34,22 +32,29 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import scala.util.Random;
 
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = Application.class)
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RegisterTest {
+
 	private static WebDriver driver;
 	private String baseUrl = "http://localhost:8080/";
 	private static String username;
 	private static String proposalName;
 	private boolean acceptNextAlert = true;
-	private StringBuffer verificationErrors = new StringBuffer();
+	private static StringBuffer verificationErrors = new StringBuffer();
 
 	private static MongoClient mongoClient = new MongoClient("localhost",
 			27017);
 	private static MongoDatabase db = mongoClient.getDatabase("test");
 	private static MongoCollection<Document> users = db.getCollection(
-			"UserVotingSystem");
+			"user");
 
 	@BeforeClass
 	public static void loadAdmin() {
@@ -58,10 +63,6 @@ public class RegisterTest {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Before
-	public void setUp() {
 		FirefoxBinary ffBinary = null;
 		if (SystemUtils.IS_OS_WINDOWS) {
 			ffBinary = new FirefoxBinary(new File(
@@ -69,7 +70,6 @@ public class RegisterTest {
 		}
 		FirefoxProfile firefoxProfile = new FirefoxProfile();
 		driver = new FirefoxDriver(ffBinary, firefoxProfile);
-
 	}
 
 	// P1: Register new user into the database
@@ -95,6 +95,11 @@ public class RegisterTest {
 
 	private void login() {
 		driver.get(baseUrl);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		driver.findElement(By.id("userNameInput")).clear();
 		driver.findElement(By.id("userNameInput")).sendKeys(username);
 		driver.findElement(By.id("passwordInput")).clear();
@@ -105,7 +110,7 @@ public class RegisterTest {
 	}
 
 	private void loginAdmin() {
-		driver.get(baseUrl);
+		driver.get(baseUrl + "/login");
 		driver.findElement(By.id("userNameInput")).clear();
 		driver.findElement(By.id("userNameInput")).sendKeys("admin");
 		driver.findElement(By.id("passwordInput")).clear();
@@ -121,7 +126,6 @@ public class RegisterTest {
 		Random rand = new Random();
 		proposalName = "Proposal" + rand.nextInt();
 
-		login();
 		driver.findElement(By.id("titleInput")).clear();
 		driver.findElement(By.id("titleInput")).sendKeys(proposalName);
 		driver.findElement(By.id("contentInput")).clear();
@@ -138,7 +142,6 @@ public class RegisterTest {
 	// P4: Vote up and down a proposal
 	@Test
 	public void test4() throws Exception {
-		login();
 		driver.findElement(By.id(proposalName)).click();
 		SeleniumUtils.esperaCargaPagina(driver, "id", "upvote", 10);
 		driver.findElement(By.id("upvote")).click();
@@ -154,16 +157,18 @@ public class RegisterTest {
 	// P5: Comment a proposal and vote it
 	@Test
 	public void test5() throws Exception {
+<<<<<<< HEAD
 		login();
 		driver.findElement(By.id(proposalName)).click();
 		SeleniumUtils.esperaCargaPagina(driver, "id", "contentInput", 10);
+=======
+>>>>>>> 049f61f4bb02986d313ca4a577a3f37ada87344f
 		driver.findElement(By.id("contentInput")).clear();
 		driver.findElement(By.id("contentInput")).sendKeys(
 				"This is a comment on a proposal");
 		driver.findElement(By.id("SubmitComment")).click();
 		SeleniumUtils.esperaCargaPagina(driver, "text",
 				"This is a comment on a proposal", 10);
-
 	}
 
 	// P6: Login as Admin
@@ -175,15 +180,14 @@ public class RegisterTest {
 	// P7: Delete proposal as admin
 	@Test
 	public void test7() throws Exception {
-		loginAdmin();
 		driver.findElement(By.id("delete_" + proposalName)).click();
 		SeleniumUtils.esperaCargaPaginaNoTexto(driver, proposalName, 15);
 		SeleniumUtils.textoNoPresentePagina(driver, proposalName);
 
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	@AfterClass
+	public static void tearDown() throws Exception {
 		driver.quit();
 		String verificationErrorString = verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
