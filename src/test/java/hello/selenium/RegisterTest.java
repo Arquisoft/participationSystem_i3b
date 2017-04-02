@@ -95,6 +95,11 @@ public class RegisterTest {
 
 	private void login() {
 		driver.get(baseUrl);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		driver.findElement(By.id("userNameInput")).clear();
 		driver.findElement(By.id("userNameInput")).sendKeys(username);
 		driver.findElement(By.id("passwordInput")).clear();
@@ -105,7 +110,7 @@ public class RegisterTest {
 	}
 
 	private void loginAdmin() {
-		driver.get(baseUrl);
+		driver.get(baseUrl + "/login");
 		driver.findElement(By.id("userNameInput")).clear();
 		driver.findElement(By.id("userNameInput")).sendKeys("admin");
 		driver.findElement(By.id("passwordInput")).clear();
@@ -121,7 +126,6 @@ public class RegisterTest {
 		Random rand = new Random();
 		proposalName = "Proposal" + rand.nextInt();
 
-		login();
 		driver.findElement(By.id("titleInput")).clear();
 		driver.findElement(By.id("titleInput")).sendKeys(proposalName);
 		driver.findElement(By.id("contentInput")).clear();
@@ -138,7 +142,6 @@ public class RegisterTest {
 	// P4: Vote up and down a proposal
 	@Test
 	public void test4() throws Exception {
-		login();
 		driver.findElement(By.id(proposalName)).click();
 		SeleniumUtils.EsperaCargaPagina(driver, "id", "upvote", 10);
 		driver.findElement(By.id("upvote")).click();
@@ -154,16 +157,12 @@ public class RegisterTest {
 	// P5: Comment a proposal and vote it
 	@Test
 	public void test5() throws Exception {
-		login();
-		driver.findElement(By.id(proposalName)).click();
-		SeleniumUtils.EsperaCargaPagina(driver, "id", "contentInput", 10);
 		driver.findElement(By.id("contentInput")).clear();
 		driver.findElement(By.id("contentInput")).sendKeys(
 				"This is a comment on a proposal");
 		driver.findElement(By.id("SubmitComment")).click();
 		SeleniumUtils.EsperaCargaPagina(driver, "text",
 				"This is a comment on a proposal", 10);
-
 	}
 
 	// P6: Login as Admin
@@ -175,7 +174,6 @@ public class RegisterTest {
 	// P7: Delete proposal as admin
 	@Test
 	public void test7() throws Exception {
-		loginAdmin();
 		driver.findElement(By.id("delete_" + proposalName)).click();
 		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, proposalName, 15);
 		SeleniumUtils.textoNoPresentePagina(driver, proposalName);
