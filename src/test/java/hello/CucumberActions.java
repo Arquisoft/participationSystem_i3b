@@ -84,6 +84,7 @@ public class CucumberActions {
 
     @And("^user creates proposal \"([^\"]*)\" with content \"([^\"]*)\" and category \"([^\"]*)\"$")
     public void userCreatesProposal(String title, String content, String category) throws Throwable {
+        Thread.sleep(500);
         driver.findElement(By.id("titleInput")).clear();
         driver.findElement(By.id("titleInput")).sendKeys(title);
         driver.findElement(By.id("contentInput")).clear();
@@ -106,6 +107,7 @@ public class CucumberActions {
 
     @When("^user creates a comment with content \"([^\"]*)\"$")
     public void userComments(String content) throws Throwable {
+        Thread.sleep(500);
         driver.findElement(By.id("contentInput")).clear();
         driver.findElement(By.id("contentInput")).sendKeys(content);
         driver.findElement(By.id("SubmitComment")).click();
@@ -113,6 +115,7 @@ public class CucumberActions {
 
     @Then("^a comment appears with content \"([^\"]*)\"$")
     public void commentAppears(String content) throws Throwable {
+        Thread.sleep(500);
         assertTrue(driver.findElementsByXPath("//*[contains(text(), '" + content + "')]").size() > 0);
     }
 
