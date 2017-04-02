@@ -57,6 +57,11 @@ public class CucumberActions {
 
     public static void tearDown() {
         driver.quit();
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @After

@@ -8,17 +8,15 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import hello.Application;
 import org.apache.commons.lang3.SystemUtils;
 import org.bson.BsonDocument;
 import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
+import org.junit.*;
+import org.junit.runner.RunWith;
 import org.junit.runners.MethodSorters;
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
@@ -34,22 +32,29 @@ import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringRunner;
 import scala.util.Random;
 
+@RunWith(SpringRunner.class)
+@ContextConfiguration(classes = Application.class)
+@SpringBootTest(classes = Application.class, webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class RegisterTest {
+
 	private static WebDriver driver;
 	private String baseUrl = "http://localhost:8080/";
 	private static String username;
 	private static String proposalName;
 	private boolean acceptNextAlert = true;
-	private StringBuffer verificationErrors = new StringBuffer();
+	private static StringBuffer verificationErrors = new StringBuffer();
 
 	private static MongoClient mongoClient = new MongoClient("localhost",
 			27017);
 	private static MongoDatabase db = mongoClient.getDatabase("test");
 	private static MongoCollection<Document> users = db.getCollection(
-			"UserVotingSystem");
+			"user");
 
 	@BeforeClass
 	public static void loadAdmin() {
@@ -58,10 +63,6 @@ public class RegisterTest {
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-	}
-
-	@Before
-	public void setUp() {
 		FirefoxBinary ffBinary = null;
 		if (SystemUtils.IS_OS_WINDOWS) {
 			ffBinary = new FirefoxBinary(new File(
@@ -69,7 +70,6 @@ public class RegisterTest {
 		}
 		FirefoxProfile firefoxProfile = new FirefoxProfile();
 		driver = new FirefoxDriver(ffBinary, firefoxProfile);
-
 	}
 
 	// P1: Register new user into the database
@@ -182,8 +182,8 @@ public class RegisterTest {
 
 	}
 
-	@After
-	public void tearDown() throws Exception {
+	@AfterClass
+	public static void tearDown() throws Exception {
 		driver.quit();
 		String verificationErrorString = verificationErrors.toString();
 		if (!"".equals(verificationErrorString)) {
