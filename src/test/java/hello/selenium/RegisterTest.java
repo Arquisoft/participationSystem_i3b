@@ -157,12 +157,6 @@ public class RegisterTest {
 	// P5: Comment a proposal and vote it
 	@Test
 	public void test5() throws Exception {
-<<<<<<< HEAD
-		login();
-		driver.findElement(By.id(proposalName)).click();
-		SeleniumUtils.esperaCargaPagina(driver, "id", "contentInput", 10);
-=======
->>>>>>> 049f61f4bb02986d313ca4a577a3f37ada87344f
 		driver.findElement(By.id("contentInput")).clear();
 		driver.findElement(By.id("contentInput")).sendKeys(
 				"This is a comment on a proposal");
