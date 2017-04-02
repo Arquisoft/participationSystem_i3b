@@ -89,6 +89,7 @@ public class CucumberActions {
         driver.findElement(By.id("contentInput")).clear();
         driver.findElement(By.id("contentInput")).sendKeys(content);
         driver.findElement(By.id("category")).click();
+        Thread.sleep(500);
         driver.findElement(By.id(category)).click();
         driver.findElement(By.id("SubmitProp")).click();
     }
