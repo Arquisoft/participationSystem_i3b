@@ -13,7 +13,7 @@ import org.I0Itec.zkclient.ZkConnection;
  * Created by Oriol on 02/04/2017.
  */
 public class KafkaTopicCreationInJava {
-    public static void createTopic(String args) throws Exception {
+    public static void createTopic(String topicName, int partitions, int replication) throws Exception {
         ZkClient zkClient = null;
         ZkUtils zkUtils;
         try {
@@ -24,12 +24,9 @@ public class KafkaTopicCreationInJava {
             zkClient = new ZkClient(zookeeperHosts, sessionTimeOutInMs, connectionTimeOutInMs, ZKStringSerializer$.MODULE$);
             zkUtils = new ZkUtils(zkClient, new ZkConnection(zookeeperHosts), false);
 
-            String topicName = args;
-            int noOfPartitions = 2;
-            int noOfReplication = 3;
             Properties topicConfiguration = new Properties();
 
-            AdminUtils.createTopic(zkUtils, topicName, noOfPartitions, noOfReplication, topicConfiguration);
+            AdminUtils.createTopic(zkUtils, topicName, partitions, replication, topicConfiguration);
 
         } catch (Exception ex) {
             ex.printStackTrace();
