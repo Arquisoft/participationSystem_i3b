@@ -1,20 +1,17 @@
 package hello.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 
 /**
  * @author Oriol The council gives the config directly to the system admin (?)
  */
 public class Configuration {
-    private static Configuration instance;
+	private static Configuration instance;
 	private List<String> categories;
 	private int expirationDateDays;
-	private List<String> notAllowedWords;
+	private HashSet<String> notAllowedWords;
 	private int minimumSupportVotes;
 
 	private Configuration() {
@@ -23,8 +20,8 @@ public class Configuration {
 		this.categories.add("Cat2");
 		this.categories.add("Cat3");
 		this.expirationDateDays = 30;
-		this.notAllowedWords = new ArrayList<>();
-		this.notAllowedWords.add("ex1");
+		this.notAllowedWords = new HashSet<>();
+		this.notAllowedWords.add("fuck");
 		this.notAllowedWords.add("ex2");
 		this.notAllowedWords.add("ex3");
 		this.minimumSupportVotes = 10;
@@ -37,6 +34,34 @@ public class Configuration {
 		return instance;
 	}
 
+	public void addCategory(String category) {
+		categories.add(category);
+	}
+
+	public void deleteCategory(String category) {
+		categories.remove(category);
+	}
+
+	public void addNotAllowedWord(String word) {
+		notAllowedWords.add(word.toLowerCase());
+	}
+
+	public void deleteNotAllowedWord(String word) {
+		notAllowedWords.remove(word);
+	}
+
+	public boolean containNotAllowedWord(String text) {
+		String[] words = text.split("\\W+");
+
+		for (String w : words) {
+			if (notAllowedWords.contains(w.toLowerCase())) {
+				return true;
+			}
+		}
+		return false;
+
+	}
+
 	public List<String> getCategories() {
 		return categories;
 	}
@@ -45,7 +70,7 @@ public class Configuration {
 		return expirationDateDays;
 	}
 
-	public List<String> getNotAllowedWords() {
+	public HashSet<String> getNotAllowedWords() {
 		return notAllowedWords;
 	}
 
@@ -60,8 +85,8 @@ public class Configuration {
 	@Override
 	public String toString() {
 		return "Configuration{" + ", categories=" + categories
-				+ ", expirationDateDays=" + expirationDateDays + ", notAllowedWords="
-				+ notAllowedWords + ", minimumSupportVotes="
-				+ minimumSupportVotes + '}';
+				+ ", expirationDateDays=" + expirationDateDays
+				+ ", notAllowedWords=" + notAllowedWords
+				+ ", minimumSupportVotes=" + minimumSupportVotes + '}';
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import hello.model.Configuration;
 import hello.model.CreateComment;
 import hello.model.CreateProposal;
 import hello.model.CreateUser;
+import hello.model.NotAllowedWordsValidator;
 import hello.model.Proposal;
 import hello.model.User;
 import hello.producers.KafkaProducer;
@@ -129,15 +131,27 @@ public class MainController {
 
 	@RequestMapping("/createProposal")
 	public String createProposal(Model model,
-			@ModelAttribute CreateProposal createProposal) {
+			@ModelAttribute CreateProposal createProposal,
+			BindingResult result) {
+
 		Proposal proposal = new Proposal();
 		proposal.setTitle(createProposal.getTitle());
 		proposal.setContent(createProposal.getContent());
 		proposal.setCategory(createProposal.getCategory());
-		dbService.insertProposal(proposal);
-		// kafkaProducer.send("new Proposal", "test");
+
+		NotAllowedWordsValidator validator = new NotAllowedWordsValidator();
+		validator.validate(proposal, result);
+
+		if (result.hasErrors()) {
+
+		} else {
+			dbService.insertProposal(proposal);
+
+		}
 		return "redirect:/userHome";
 	}
+
+	// kafkaProducer.send("new Proposal", "test");}
 
 	@RequestMapping("/createComment/{id}")
 	public String commentProposal(Model model, @PathVariable("id") String id,

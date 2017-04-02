@@ -60,6 +60,8 @@
 						<label for="title">Title of the proposal: </label> <input
 							type="text" id="title" th:field="*{title}" class="form-control"
 							placeholder="Title of the Proposal" />
+						<p th:if="${#fields.hasErrors('global')}" th:errors="*{global}">Title
+							contains not allowed words</p>
 					</div>
 					<div class="form-group">
 
