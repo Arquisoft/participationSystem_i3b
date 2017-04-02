@@ -10433,3 +10433,6 @@ java.lang.RuntimeException: A broker is already registered on the path /brokers/
 [2017-04-02 12:39:22,736] INFO [Group Metadata Manager on Broker 0]: Removed 0 expired offsets in 2 milliseconds. (kafka.coordinator.GroupMetadataManager)
 [2017-04-02 12:40:41,042] INFO [GroupCoordinator 0]: Preparing to restabilize group anonymous.d74c3394-8d1f-4649-8e25-80be9c5fd8f3 with old generation 1 (kafka.coordinator.GroupCoordinator)
 [2017-04-02 12:40:41,043] INFO [GroupCoordinator 0]: Group anonymous.d74c3394-8d1f-4649-8e25-80be9c5fd8f3 with generation 2 is now empty (kafka.coordinator.GroupCoordinator)
+[2017-04-02 12:47:29,523] INFO [GroupCoordinator 0]: Preparing to restabilize group anonymous.edbda434-5387-4aec-a8a6-ce8c5e4750d8 with old generation 0 (kafka.coordinator.GroupCoordinator)
+[2017-04-02 12:47:29,523] INFO [GroupCoordinator 0]: Stabilized group anonymous.edbda434-5387-4aec-a8a6-ce8c5e4750d8 generation 1 (kafka.coordinator.GroupCoordinator)
+[2017-04-02 12:47:29,528] INFO [GroupCoordinator 0]: Assignment received from leader for group anonymous.edbda434-5387-4aec-a8a6-ce8c5e4750d8 for generation 1 (kafka.coordinator.GroupCoordinator)

@@ -1,5 +1,6 @@
 package hello;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -186,6 +187,11 @@ public class MainController {
 	@ModelAttribute("categories")
 	public List<String> categories() {
 		return Configuration.getInstance().getCategories();
+	}
+
+	@ModelAttribute("notAllowedWords")
+	public List<String> notAllowedWords() {
+		return new ArrayList<String>(Configuration.getInstance().getNotAllowedWords());
 	}
 
 	@ModelAttribute("author")
