@@ -3,11 +3,20 @@ package hello.selenium;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.apache.commons.lang3.SystemUtils;
+import org.bson.BsonDocument;
+import org.bson.Document;
+import org.bson.types.ObjectId;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
@@ -21,6 +30,10 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.support.ui.Select;
 
+import com.mongodb.MongoClient;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+
 import scala.util.Random;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -32,6 +45,21 @@ public class RegisterTest {
 	private boolean acceptNextAlert = true;
 	private StringBuffer verificationErrors = new StringBuffer();
 
+	private static MongoClient mongoClient = new MongoClient("localhost",
+			27017);
+	private static MongoDatabase db = mongoClient.getDatabase("test");
+	private static MongoCollection<Document> users = db.getCollection(
+			"UserVotingSystem");
+
+	@BeforeClass
+	public static void loadAdmin() {
+		try {
+			theTestDatabaseIsLoaded();
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+	}
+
 	@Before
 	public void setUp() {
 		FirefoxBinary ffBinary = null;
@@ -41,6 +69,7 @@ public class RegisterTest {
 		}
 		FirefoxProfile firefoxProfile = new FirefoxProfile();
 		driver = new FirefoxDriver(ffBinary, firefoxProfile);
+
 	}
 
 	// P1: Register new user into the database
@@ -143,6 +172,16 @@ public class RegisterTest {
 		loginAdmin();
 	}
 
+	// P7: Delete proposal as admin
+	@Test
+	public void test7() throws Exception {
+		loginAdmin();
+		driver.findElement(By.id("delete_" + proposalName)).click();
+		SeleniumUtils.EsperaCargaPaginaNoTexto(driver, proposalName, 15);
+		SeleniumUtils.textoNoPresentePagina(driver, proposalName);
+
+	}
+
 	@After
 	public void tearDown() throws Exception {
 		driver.quit();
@@ -183,5 +222,38 @@ public class RegisterTest {
 		} finally {
 			acceptNextAlert = true;
 		}
+	}
+
+	public static void theTestDatabaseIsLoaded() throws Throwable {
+		users.deleteMany(new BsonDocument());
+
+		try {
+			JSONArray parse = parseArray("admin.json");
+
+			JSONObject user = (JSONObject) parse.get(0);
+
+			users.insertOne(new Document().append("id", new ObjectId(user
+					.getString("_id"))).append("name", user.getString("name"))
+					.append("password", user.getString("password")).append(
+							"isAdmin", user.getString("isAdmin")));
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static JSONArray parseArray(String name) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(
+				RegisterTest.class.getClassLoader()
+						.getResourceAsStream(name)));
+		String line;
+		StringBuilder result = new StringBuilder();
+
+		while ((line = br.readLine()) != null) {
+			result.append(line);
+		}
+		br.close();
+
+		return new JSONArray(result.toString());
 	}
 }
