@@ -1,26 +1,35 @@
 package hello;
 
-import hello.model.*;
-import hello.repository.DBService;
-import hello.repository.DBServiceImpl;
-import hello.services.RegistrationService;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import hello.producers.KafkaProducer;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.List;
+import hello.model.Comment;
+import hello.model.Configuration;
+import hello.model.CreateComment;
+import hello.model.CreateProposal;
+import hello.model.CreateUser;
+import hello.model.Proposal;
+import hello.model.User;
+import hello.producers.KafkaProducer;
+import hello.repository.DBServiceImpl;
+import hello.services.RegistrationService;
 
 @Controller
 public class MainController {
 
 	@Autowired
 	private DBServiceImpl dbService;
-	
+
 	@Autowired
 	private RegistrationService registration;
 
@@ -49,8 +58,10 @@ public class MainController {
 	@RequestMapping(value = "/upvoteProposal/{id}", method = RequestMethod.GET)
 	public String upvoteProposal(Model model, @PathVariable("id") String id) {
 		Proposal prop = dbService.findProposalById(id);
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
 		if (prop != null) {
-			prop.upvote();
+			prop.upvote(user.getName());
 			dbService.updateProposal(prop);
 		}
 		return "redirect:/selectProposal/" + id;
@@ -60,8 +71,10 @@ public class MainController {
 	@RequestMapping(value = "/downvoteProposal/{id}", method = RequestMethod.GET)
 	public String downvoteProposal(Model model, @PathVariable("id") String id) {
 		Proposal prop = dbService.findProposalById(id);
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
 		if (prop != null) {
-			prop.downvote();
+			prop.downvote(user.getName());
 			dbService.updateProposal(prop);
 		}
 		return "redirect:/selectProposal/" + id;
@@ -69,11 +82,14 @@ public class MainController {
 
 	@RequestMapping(value = "/upvoteComment/{proposalId}/{id}")
 	public String upvoteComment(Model model,
-			@PathVariable("proposalId") String proposalId, @PathVariable("id") String id) {
-		Comment com = dbService.findCommentByID(proposalId,id);
+			@PathVariable("proposalId") String proposalId,
+			@PathVariable("id") String id) {
+		Comment com = dbService.findCommentByID(proposalId, id);
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
 		if (com != null) {
-			com.upvote();
-			dbService.updateComment(proposalId,com);
+			com.upvote(user.getName());
+			dbService.updateComment(proposalId, com);
 		}
 		// kafkaProducer.send("upvoted Comment", "test");
 		return "redirect:/selectProposal/" + proposalId;
@@ -81,11 +97,14 @@ public class MainController {
 
 	@RequestMapping(value = "/downvoteComment/{proposalId}/{id}")
 	public String downvoteComment(Model model,
-			@PathVariable("proposalId") String proposalId, @PathVariable("id") String id) {
-		Comment com = dbService.findCommentByID(proposalId,id);
+			@PathVariable("proposalId") String proposalId,
+			@PathVariable("id") String id) {
+		Comment com = dbService.findCommentByID(proposalId, id);
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
 		if (com != null) {
-			com.downvote();
-			dbService.updateComment(proposalId,com);
+			com.downvote(user.getName());
+			dbService.updateComment(proposalId, com);
 		}
 		// kafkaProducer.send("downvoted Comment", "test");
 		return "redirect:/selectProposal/" + proposalId;
@@ -101,9 +120,9 @@ public class MainController {
 		model.addAttribute("createUser", new CreateUser());
 		return "login";
 	}
-	
+
 	@RequestMapping("/register")
-	public String register(Model model,@ModelAttribute CreateUser createUser){
+	public String register(Model model, @ModelAttribute CreateUser createUser) {
 		registration.registrate(createUser);
 		return "login";
 	}
