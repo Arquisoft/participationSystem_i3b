@@ -193,3 +193,5 @@ Caused by: java.nio.file.FileSystemException: \tmp\kafka-logs\__consumer_offsets
 [2017-04-01 17:18:18,795] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)
 [2017-04-02 10:35:55,857] INFO Starting the log cleaner (kafka.log.LogCleaner)
 [2017-04-02 10:35:55,866] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)
+[2017-04-02 12:09:21,865] INFO Starting the log cleaner (kafka.log.LogCleaner)
+[2017-04-02 12:09:21,867] INFO [kafka-log-cleaner-thread-0], Starting  (kafka.log.LogCleaner)

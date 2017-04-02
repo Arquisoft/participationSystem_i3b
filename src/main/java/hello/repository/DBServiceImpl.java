@@ -78,4 +78,11 @@ public class DBServiceImpl implements DBService {
 	public User getUser(String username) {
 		return userRepository.findByName(username);
 	}
+
+	@Override
+	public void deleteProposalById(String proposal) {
+		Proposal toDelete = findProposalById(proposal);
+		proposalRepository.delete(toDelete);
+
+	}
 }

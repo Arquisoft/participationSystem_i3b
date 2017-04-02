@@ -24,6 +24,7 @@ public class User implements UserDetails {
 	private String name;
 	private Integer age;
 	private String password;
+	private boolean isAdmin = false;
 
 	public void setName(String name) {
 		this.name = name;
@@ -39,6 +40,14 @@ public class User implements UserDetails {
 
 	public User() {
 
+	}
+
+	public boolean isAdmin() {
+		return isAdmin;
+	}
+
+	public void setAdmin(boolean isAdmin) {
+		this.isAdmin = isAdmin;
 	}
 
 	public User(String name, Integer age) {

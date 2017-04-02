@@ -24,6 +24,8 @@ public interface DBService {
 
 	Proposal updateProposal(Proposal proposal);
 
+	void deleteProposalById(String proposalId);
+
 	Proposal findProposalById(String id);
 
 	List<Proposal> findAllProposals();

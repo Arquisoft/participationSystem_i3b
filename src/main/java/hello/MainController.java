@@ -3,6 +3,7 @@ package hello;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.SpringSecurityCoreVersion;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,8 +48,14 @@ public class MainController {
 
 	@RequestMapping(value = "/userHome")
 	public String userHome(Model model) {
+		User user = (User) SecurityContextHolder.getContext()
+				.getAuthentication().getPrincipal();
+		if (user.isAdmin()) {
+			return "adminHome";
+		}
 		model.addAttribute("createProposal", new CreateProposal());
 		// model.addAttribute("proposals", new ArrayList<Proposal>());
+
 		return "userHome";
 	}
 
@@ -148,6 +155,12 @@ public class MainController {
 			dbService.insertProposal(proposal);
 
 		}
+		return "redirect:/userHome";
+	}
+
+	@RequestMapping("/deleteProposal/{id}")
+	public String deleteProposal(Model model, @PathVariable("id") String id) {
+		dbService.deleteProposalById(id);
 		return "redirect:/userHome";
 	}
 

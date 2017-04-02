@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Login page</title>
+
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+
+<!-- Latest compiled and minified JavaScript -->
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous">
+	
+</script>
+
+
+</head>
+<body>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<h1 class="text-center text-primary">Admin Panel</h1>
+				<div class="row">
+					<div class="col-md-4">
+						<h3>Proposals</h3>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Proposal</th>
+									<th>Category</th>
+									<th>Vote balance</th>
+									<th>Open</th>
+									<th>Delete</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="prop : ${proposals}">
+									<td th:text="${prop.getTitle()}"></td>
+									<td th:text="${prop.getCategory()}"></td>
+									<td th:text="${prop.getVoteBalance()}"></td>
+									<td><a th:href="${'/selectProposal/' + prop.getId()}"
+										class="btn btn-block btn-sm btn-info">Open</a></td>
+									<td><a th:href="${'/deleteProposal/' + prop.getId()}"
+										class="btn btn-block btn-danger">Delete</a></td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-1"></div>
+					<div class="col-md-3">
+						<h3>Categories</h3>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Product</th>
+									<th>Payment Taken</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>TB - Monthly</td>
+									<td>01/04/2012</td>
+									<td>Default</td>
+								</tr>
+								<tr class="active">
+									<td>1</td>
+									<td>TB - Monthly</td>
+									<td>01/04/2012</td>
+									<td>Approved</td>
+								</tr>
+								<tr class="success">
+									<td>2</td>
+									<td>TB - Monthly</td>
+									<td>02/04/2012</td>
+									<td>Declined</td>
+								</tr>
+								<tr class="warning">
+									<td>3</td>
+									<td>TB - Monthly</td>
+									<td>03/04/2012</td>
+									<td>Pending</td>
+								</tr>
+								<tr class="danger">
+									<td>4</td>
+									<td>TB - Monthly</td>
+									<td>04/04/2012</td>
+									<td>Call in to confirm</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="col-md-1"></div>
+					<div class="col-md-3">
+						<h3>Not allowed words</h3>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Product</th>
+									<th>Payment Taken</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td>TB - Monthly</td>
+									<td>01/04/2012</td>
+									<td>Default</td>
+								</tr>
+								<tr class="active">
+									<td>1</td>
+									<td>TB - Monthly</td>
+									<td>01/04/2012</td>
+									<td>Approved</td>
+								</tr>
+								<tr class="success">
+									<td>2</td>
+									<td>TB - Monthly</td>
+									<td>02/04/2012</td>
+									<td>Declined</td>
+								</tr>
+								<tr class="warning">
+									<td>3</td>
+									<td>TB - Monthly</td>
+									<td>03/04/2012</td>
+									<td>Pending</td>
+								</tr>
+								<tr class="danger">
+									<td>4</td>
+									<td>TB - Monthly</td>
+									<td>04/04/2012</td>
+									<td>Call in to confirm</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</body>
+</html>
