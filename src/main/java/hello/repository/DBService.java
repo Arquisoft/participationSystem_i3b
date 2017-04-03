@@ -6,8 +6,6 @@ import hello.model.User;
 
 import java.util.List;
 
-import org.apache.catalina.startup.UserDatabase;
-
 /**
  * Created by ADRIÁN on 28/03/2017.
  */
